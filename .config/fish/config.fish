@@ -27,7 +27,6 @@ set -gx EDITOR nvim
 #end
 
 # NVM setup
-load_nvm > /dev/stderr
 
 # fzf setup for fuzzy completion
 eval (fzf --fish)
