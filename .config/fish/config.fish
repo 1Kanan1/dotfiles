@@ -27,15 +27,7 @@ set -gx EDITOR nvim
 #end
 
 # NVM setup
-#if test -d "$HOME/.nvm"
-#    set -x NVM_DIR "$HOME/.nvm"
-#    if test -s "$NVM_DIR/nvm.sh"
-#        source "$NVM_DIR/nvm.sh"
-#    end
-#    if test -s "$NVM_DIR/bash_completion"
-#        source "$NVM_DIR/bash_completion"
-#    end
-#end
+load_nvm > /dev/stderr
 
 # fzf setup for fuzzy completion
 eval (fzf --fish)
