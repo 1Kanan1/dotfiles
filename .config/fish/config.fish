@@ -26,7 +26,8 @@ set -gx EDITOR nvim
 #    source "/Users/Kanan2003/.ghcup/env"
 #end
 
-# NVM setup
+# NVM setup (node --version > $HOME/.nvmrc)
+eval nvm use >> /dev/null
 
 # fzf setup for fuzzy completion
 eval (fzf --fish)
