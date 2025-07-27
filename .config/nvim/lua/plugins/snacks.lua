@@ -8,7 +8,7 @@ return {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
+		dashboard = require("components.snacks.dashboard").opts,
     explorer = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
