@@ -1,13 +1,12 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    atuin init fish | source
 end
 
 # source the alias.fish file
 if test -f ~/.config/fish/alias.fish
     source ~/.config/fish/alias.fish
 end
-
-alias dotfile="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME" 
 
 # Themes for fish
 oh-my-posh init fish --config ~/.config/fish/themes/honukai.omp.json | source

@@ -1,3 +1,5 @@
+alias dotfile="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME" 
+
 # Aliases for python and related tools
 alias python="python3"
 alias ipython="ipython3"
