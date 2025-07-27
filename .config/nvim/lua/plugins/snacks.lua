@@ -2,6 +2,25 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  dependencies = {
+    {
+      "kevinhwang91/nvim-ufo",
+      dependencies = {
+        "kevinhwang91/promise-async",
+      },
+      event = "VeryLazy",
+      config = function()
+        vim.o.foldlevel = 99
+        vim.o.foldlevelstart = 99
+
+        require("ufo").setup({
+          provider_selector = function(bufnr, filetype, buftype)
+            return { "treesitter", "indent" }
+          end,
+        })
+      end,
+    },
+  },
   ---@type snacks.Config
   opts = {
     -- your configuration comes here
@@ -17,7 +36,7 @@ return {
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
-    statuscolumn = { enabled = true },
+		statuscolumn = require("components.snacks.statuscolumn").opts,
     words = { enabled = true },
   },
 }
