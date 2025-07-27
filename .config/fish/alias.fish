@@ -13,3 +13,7 @@ alias lvim="NVIM_APPNAME=LazyVim nvim"
 alias dnscrypt-proxy="/usr/local/dnscrypt-proxy/dnscrypt-proxy"
 
 alias cp="cp -i"
+
+function chtsh
+  curl cheat.sh/$argv
+end
