@@ -21,6 +21,11 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticWarn" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticHint" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticInfo" })
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -32,6 +37,7 @@ require("lazy").setup({
   install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
+  change_detection = { notify = false },
 	performance = {
 		rtp = {
 			disabled_plugins = {
