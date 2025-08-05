@@ -20,6 +20,7 @@ return {
         })
       end,
     },
+    "lewis6991/gitsigns.nvim",
   },
   ---@type snacks.Config
   opts = {
@@ -29,7 +30,11 @@ return {
     bigfile = { enabled = true },
 		dashboard = require("components.snacks.dashboard").opts,
     explorer = { enabled = true },
-    indent = { enabled = true },
+    indent = {
+      animate = {
+        enabled = false,
+      },
+    },
     input = { enabled = true },
     picker = { enabled = true },
     notifier = { enabled = true },
