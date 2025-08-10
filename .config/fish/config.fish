@@ -7,8 +7,14 @@ if status is-interactive
     fzf --fish | FZF_ALT_C_COMMAND= source
 end
 
+starship init fish | source
+
 if test -f ~/.config/fish/alias.fish
     source ~/.config/fish/alias.fish
+end
+
+if test -f ~/.config/fish/environments.fish
+    source ~/.config/fish/environments.fish
 end
 
 # set the global 'nvim'
