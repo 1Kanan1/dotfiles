@@ -1,7 +1,7 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = { 'saghen/blink.cmp' },
-
+  event = "VeryLazy",
   -- example using `opts` for defining servers
   opts = function(_, opts)
     opts.servers = {
@@ -20,8 +20,6 @@ return {
 								vim.env.VIMRUNTIME,
 							},
 						},
-						-- telemetry = {
-						-- },
 						hint = {},
 					},
 				},
@@ -104,11 +102,12 @@ return {
     }
   end,
   config = function(_, opts)
+    local blink = require("blink.cmp")
     local lspconfig = require('lspconfig')
     for server, config in pairs(opts.servers) do
       -- passing config.capabilities to blink.cmp merges with the capabilities in your
       -- `opts[server].capabilities, if you've defined it
-      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+      config.capabilities = blink.get_lsp_capabilities()
       lspconfig[server].setup(config)
     end
   end
