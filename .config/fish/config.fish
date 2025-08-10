@@ -4,6 +4,7 @@ if status is-interactive
     set fish_tmux_autostart true
 
     atuin init fish | source
+    fzf --fish | FZF_ALT_C_COMMAND= source
 end
 
 if test -f ~/.config/fish/alias.fish
