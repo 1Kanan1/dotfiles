@@ -1,8 +1,4 @@
 local o = vim.opt
-local g = vim.g
-
-g.mapleader = " "
-g.maplocalleader = "\\"
 
 local options = {
 	shell = "/opt/homebrew/bin/fish",
