@@ -3,6 +3,7 @@ return {
 	{
 		"mason-org/mason.nvim",
 		cmd = "Mason",
+    event = "VeryLazy",
 		build = ":MasonUpdate",
 		config = function()
 			require("mason").setup({})
@@ -50,6 +51,7 @@ return {
 	-- Package Manager for LSP installation
 	{
 		"mason-org/mason-lspconfig.nvim",
+    event = "VeryLazy",
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
