@@ -13,50 +13,69 @@ M.opts = {
 			action = function()
 				Snacks.gitbrowse()
 			end,
+      enabled = function()
+        Snacks.git.get_root()
+      end,
 		},
 		{ icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
 		{ icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 		function()
 			local in_git = Snacks.git.get_root() ~= nil
-			local cmds = {
-				{
-					title = "Notifications",
-					cmd = "gh notify -s -a -n5",
-					action = function()
-						vim.ui.open("https://github.com/notifications")
-					end,
-					key = "N",
-					icon = " ",
-					height = 5,
-					enabled = true,
-				},
-				{
-					title = "Open Issues",
-					cmd = "gh issue list -L 3",
-					key = "i",
-					action = function()
-						vim.fn.jobstart("gh issue list --web", { detach = true })
-					end,
-					icon = " ",
-					height = 7,
-				},
-				{
-					icon = " ",
-					title = "Open PRs",
-					cmd = "gh pr list -L 3",
-					key = "P",
-					action = function()
-						vim.fn.jobstart("gh pr list --web", { detach = true })
-					end,
-					height = 7,
-				},
-				{
-					icon = " ",
-					title = "Git Status",
-					cmd = "git --no-pager diff --stat -B -M -C",
-					height = 10,
-				},
-			}
+			local cmds = {}
+
+      local function gh_has_remote(callback)
+        vim.fn.jobstart({ "gh", "repo", "view" }, {
+          stdout_buffered = true,
+          on_exit = function(_, code)
+            callback(code == 0)
+          end
+        })
+      end
+
+      table.insert(cmds, {
+        title = "Notifications",
+        cmd = "gh notify -s -a -n5",
+        action = function()
+          vim.ui.open("https://github.com/notifications")
+        end,
+        key = "N",
+        icon = " ",
+        height = 5,
+        enabled = true,
+      })
+
+      gh_has_remote(function(has_remote)
+        if has_remote then
+          table.insert(cmds, {
+            title = "Open Issues",
+            cmd = "gh issue list -L 3",
+            key = "i",
+            action = function()
+              vim.fn.jobstart("gh issue list --web", { detach = true })
+            end,
+            icon = " ",
+            height = 7,
+          })
+          table.insert(cmds, {
+            icon = " ",
+            title = "Open PRs",
+            cmd = "gh pr list -L 3",
+            key = "P",
+            action = function()
+              vim.fn.jobstart("gh pr list --web", { detach = true })
+            end,
+            height = 7,
+          })
+        end
+      end)
+
+      table.insert(cmds, {
+        icon = " ",
+        title = "Git Status",
+        cmd = "git --no-pager diff --stat -B -M -C",
+        height = 10,
+			})
+
 			return vim.tbl_map(function(cmd)
 				return vim.tbl_extend("force", {
 					pane = 2,
