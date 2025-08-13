@@ -1,4 +1,3 @@
-
 local M = {}
 
 local conditions = require("heirline.conditions")
@@ -107,8 +106,15 @@ M.FileNameBlock = {
 
 local FileName = {
   init = function(self)
-    self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
-    if self.lfilename == "" then self.lfilename = "[No Name]" end
+    if self.filename:match("^term://.*/+%d+:") then
+      self.lfilename = self.filename:gsub("^term://.*/+(%d+):.*$", "term:%1")
+    else
+      self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
+    end
+
+    if self.lfilename == "" then
+      self.lfilename = "[No Name]"
+    end
   end,
   hl = { fg = utils.get_highlight("Directory").fg },
   flexible = 2,
