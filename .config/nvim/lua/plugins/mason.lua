@@ -1,90 +1,47 @@
 return {
-	-- Package Manager for LSP, Formatters, DAP servers, and linters
-	{
-		"mason-org/mason.nvim",
-		cmd = "Mason",
-    event = "VeryLazy",
-		build = ":MasonUpdate",
-		config = function()
-			require("mason").setup({})
+  "mason-org/mason-lspconfig.nvim",
+  event = "VeryLazy",
+  dependencies = {
+    {
+      "mason-org/mason.nvim",
+      config = function()
+        require("mason").setup({})
 
-			local formatters = {
-				"prettier",
-				--htmldjango
-				"djlint", -- formatter, linter
-				-- python
-				"-autopep8",
-				"black",
-				"-isort",
-				-- lua
-				"stylua",
-			}
-			local dap = {
-				"js-debug-adapter",
-			}
-			local linters = {
-				-- python
-				"-flake8",
-				"mypy",
-			}
-			local ensure_installed = { dap, linters, formatters }
+        local ensure_installed = {
+          -- dap
+          -- linters
+          -- formatters
+          "stylua",
+          "-prettier",
+          "-djlint",
+          "-black",
+        }
 
-			local mr = require("mason-registry")
-			for _, tbl in ipairs(ensure_installed) do
-				for _, package in ipairs(tbl) do
-					-- use "-" before the package name (like, "-stylua") to uninstall it
-					if package:find("%-") ~= nil then
-						local ok, pkg = pcall(mr.get_package, package:sub(2))
-						if ok and pkg:is_installed() then
-							pkg:uninstall()
-						end
-					else
-						local ok, pkg = pcall(mr.get_package, package)
-						if ok and not pkg:is_installed() then
-							pkg:install()
-						end
-					end
-				end
-			end
-		end,
-	},
-	-- Package Manager for LSP installation
-	{
-		"mason-org/mason-lspconfig.nvim",
-    event = "VeryLazy",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					-- LUA
-					"lua_ls",
-
-					-- GOLANG
-					"gopls",
-
-					-- PYTHON
-					"ruff",
-					-- "pylsp",
-					"pyright",
-					-- "jedi_language_server",
-
-					"yamlls",
-
-					-- HTML
-					"html",
-					"htmx",
-
-					-- CSS
-					"cssls",
-					"tailwindcss",
-
-					"ts_ls",
-
-					"svelte",
-
-					"marksman", -- markdown
-				},
-				automatic_enable = false,
-			})
-		end,
-	},
+        local mr = require("mason-registry")
+        for _, pkg_name in ipairs(ensure_installed) do
+          -- use "-" before the package name (like, "-stylua") to uninstall it
+          local uninstall = pkg_name:sub(1, 1) == "-"
+          local name = uninstall and pkg_name:sub(2) or pkg_name
+          local ok, pkg = pcall(mr.get_package, name)
+          if ok then
+            if uninstall and pkg:is_installed() then
+              pkg:uninstall()
+            elseif not uninstall and not pkg:is_installed() then
+              pkg:install()
+            end
+          end
+        end
+      end,
+    },
+    "neovim/nvim-lspconfig",
+  },
+  config = function()
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "lua_ls",
+        "ts_ls",
+        "svelte",
+      },
+    })
+  end,
 }
