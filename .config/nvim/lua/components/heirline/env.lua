@@ -24,6 +24,7 @@ M.FileIcon = {
   end,
 }
 
+-- stylua: ignore
 function M.setup_colors()
   local get = utils.get_highlight
   return {
