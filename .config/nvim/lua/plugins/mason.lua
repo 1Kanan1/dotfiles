@@ -39,7 +39,14 @@ return {
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
+        "ruff",
+        "pyright",
         "ts_ls",
+        "html",
+        "cssls",
+        "jsonls",
+        "yamlls",
+        "tailwindcss",
         "svelte",
       },
     })
