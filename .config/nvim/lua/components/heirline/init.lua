@@ -13,7 +13,7 @@ return {
   },
 
   statusline = require("components.heirline.statusline").StatusLine,
-  winbar     = require("components.heirline.winbar").WinBar,
-  tabline    = require("components.heirline.tabline").TabLine,
+  winbar = nil,
+  tabline = require("components.heirline.tabline").TabLine,
   -- statuscolumn = {},
 }
