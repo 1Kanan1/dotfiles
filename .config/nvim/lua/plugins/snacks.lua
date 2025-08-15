@@ -37,6 +37,7 @@ return {
         },
       },
       input = { enabled = true },
+      image = { enabled = true },
       picker = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
@@ -139,21 +140,21 @@ return {
       }
     },
   },
-	{
-		"folke/todo-comments.nvim",
-		dependencies = {
-			"folke/snacks.nvim",
-		},
-		lazy = false,
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    lazy = false,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
 	   -- stylua: ignore
 	   keys = {
 	     { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
 	     { "<leader>sT", function () Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
 	   },
-	},
+  },
 }
