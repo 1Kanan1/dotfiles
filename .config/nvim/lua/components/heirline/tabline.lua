@@ -1,4 +1,3 @@
-
 local M = {}
 local env = require("components.heirline.env")
 local utils = require("heirline.utils")
@@ -13,7 +12,7 @@ M.TablineFileName = {
     return vim.fn.fnamemodify(filename, ":.:h:t") .. "/" .. vim.fn.fnamemodify(filename, ":t")
   end,
   hl = function(self)
-    return { bold = self.is_active or self.is_visible }
+    return { fg = "darkgray", bold = self.is_active or self.is_visible }
   end,
 }
 
