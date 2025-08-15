@@ -25,7 +25,7 @@ vim.diagnostic.config({
   virtual_text = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.ERROR] = "",
       [vim.diagnostic.severity.WARN] = "",
       [vim.diagnostic.severity.HINT] = "",
       [vim.diagnostic.severity.INFO] = "",
@@ -41,6 +41,7 @@ vim.diagnostic.config({
 
 -- Setup lazy.nvim
 require("lazy").setup({
+  defaults = { lazy = true },
   spec = {
     -- import your plugins
     { import = "plugins" },
