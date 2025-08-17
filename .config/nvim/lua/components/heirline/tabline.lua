@@ -117,7 +117,11 @@ vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufDelete" }, {
         buflist_cache[i] = nil
       end
       if vim.bo.filetype ~= "dashboard" then
-        vim.o.showtabline = 2
+        if #buflist_cache > 1 then
+          vim.o.showtabline = 2
+        else
+          vim.o.showtabline = 0
+        end
       end
     end)
   end,
