@@ -55,7 +55,9 @@ M.Git = {
 
 M.GitBranch = utils.insert(M.Git, env.Space(2), {
   provider = function(self)
-    return " " .. self.status_dict.head
+    local branch = self.status_dict.head
+    local max_len = 20
+    return " " .. (#branch < max_len and branch or branch:sub(1, max_len - 3) .. "...")
   end,
   hl = { fg = "orange", bold = true },
   on_click = {
@@ -110,7 +112,28 @@ local FileName = {
     if self.filename:match("^term://.*/+%d+:") then
       self.lfilename = self.filename:gsub("^term://.*/+(%d+):.*$", "term:%1")
     else
-      self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
+      local path = vim.fn.fnamemodify(self.filename, ":.")
+      local max_len = 30
+
+      local is_abs = path:sub(1, 1) == "/"
+      local parts = {}
+      for part in path:gmatch("[^/]+") do
+        table.insert(parts, part)
+      end
+
+      local short_parts = {}
+      for i = 1, #parts - 1 do
+        local dir = parts[i]
+        short_parts[i] = dir:match("^%.?%w") or dir:sub(1, 1)
+      end
+      short_parts[#parts] = parts[#parts] -- keep filename intact
+
+      local short_path = table.concat(short_parts, "/")
+      if is_abs then
+        short_path = "/" .. short_path
+      end
+
+      self.lfilename = #short_path > max_len and short_path or path
     end
 
     if self.lfilename == "" then
