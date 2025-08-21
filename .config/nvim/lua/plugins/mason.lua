@@ -12,9 +12,8 @@ return {
           -- linters
           -- formatters
           "stylua",
-          "-prettier",
+          "prettier",
           "-djlint",
-          "-black",
         }
 
         local mr = require("mason-registry")
@@ -41,7 +40,8 @@ return {
         "lua_ls",
         "ruff",
         "pyright",
-        "ts_ls",
+        -- "ts_ls",
+        "vtsls",
         "html",
         "cssls",
         "jsonls",

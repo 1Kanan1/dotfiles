@@ -1,13 +1,5 @@
 return {
   single_file_support = true,
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescriptreact",
-    "typescript.tsx",
-  },
   settings = {
     javascript = {
       inlayHints = {
