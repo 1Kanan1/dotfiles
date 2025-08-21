@@ -115,25 +115,29 @@ local FileName = {
       local path = vim.fn.fnamemodify(self.filename, ":.")
       local max_len = 30
 
-      local is_abs = path:sub(1, 1) == "/"
-      local parts = {}
-      for part in path:gmatch("[^/]+") do
-        table.insert(parts, part)
-      end
+      if #path > max_len then
+        local is_abs = path:sub(1, 1) == "/"
+        local parts = {}
+        for part in path:gmatch("[^/]+") do
+          table.insert(parts, part)
+        end
 
-      local short_parts = {}
-      for i = 1, #parts - 1 do
-        local dir = parts[i]
-        short_parts[i] = dir:match("^%.?%w") or dir:sub(1, 1)
-      end
-      short_parts[#parts] = parts[#parts] -- keep filename intact
+        local short_parts = {}
+        for i = 1, #parts - 1 do
+          local dir = parts[i]
+          short_parts[i] = dir:match("^%.?%w") or dir:sub(1, 1)
+        end
+        short_parts[#parts] = parts[#parts] -- keep filename intact
 
-      local short_path = table.concat(short_parts, "/")
-      if is_abs then
-        short_path = "/" .. short_path
-      end
+        local short_path = table.concat(short_parts, "/")
+        if is_abs then
+          short_path = "/" .. short_path
+        end
 
-      self.lfilename = #short_path > max_len and short_path or path
+        self.lfilename = short_path
+      else
+        self.lfilename = path
+      end
     end
 
     if self.lfilename == "" then
