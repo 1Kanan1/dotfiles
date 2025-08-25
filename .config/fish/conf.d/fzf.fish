@@ -7,7 +7,7 @@ set -x FZF_CTRL_T_OPTS "
     if test -d {}; 
       eza -a --color=always --icons --tree --level=2 --git-ignore {}; 
     else if test -f {}; 
-      bat --color=always --style=numbers --line-range :500 {}; 
+      bat --color=always --style='changes,numbers' --line-range :500 {}; 
     else; 
       echo \"Not a valid file or directory\"; 
     end'"
