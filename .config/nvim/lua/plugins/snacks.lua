@@ -147,6 +147,7 @@ return {
       "folke/snacks.nvim",
     },
     lazy = false,
+    opts = {},
 	   -- stylua: ignore
 	   keys = {
 	     { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
