@@ -1,10 +1,10 @@
 local M = {}
 local utils = require("heirline.utils")
 
-M.Align = { provider = "%=", hl = { bg = "None" } }
+M.Align = { provider = "%=", hl = { bg = utils.get_highlight("Normal").bg } }
 
 M.Space = function(n)
-  return { provider = string.rep(" ", n or 1), hl = { bg = "None" } }
+  return { provider = string.rep(" ", n or 1), hl = { bg = utils.get_highlight("Normal").bg } }
 end
 
 M.FileIcon = {
@@ -18,9 +18,9 @@ M.FileIcon = {
   end,
   hl = function(self)
     if self.bufnr and not (self.is_active or self.is_visible) then
-      return { bg = "None" }
+      return { bg = utils.get_highlight("Normal").bg }
     end
-    return { fg = self.icon_color }
+    return { fg = self.icon_color, bg = utils.get_highlight("Normal").bg }
   end,
 }
 

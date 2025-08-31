@@ -12,7 +12,7 @@ M.TablineFileName = {
     return vim.fn.fnamemodify(filename, ":.:h:t") .. "/" .. vim.fn.fnamemodify(filename, ":t")
   end,
   hl = function(self)
-    return { fg = "darkgray", bold = self.is_active or self.is_visible }
+    return { fg = "darkgray", bold = self.is_active or self.is_visible, bg = utils.get_highlight("Normal").bg }
   end,
 }
 
@@ -23,7 +23,7 @@ M.TablineFileFlags = {
       return vim.api.nvim_get_option_value("modified", { buf = self.bufnr })
     end,
     provider = "",
-    hl = { fg = "white" },
+    hl = { fg = "white", bg = utils.get_highlight("Normal").bg },
     env.Space(1),
   },
   {
@@ -34,7 +34,7 @@ M.TablineFileFlags = {
     provider = function(self)
       return vim.bo[self.bufnr].buftype ~= "terminal" and ""
     end,
-    hl = { fg = "orange" },
+    hl = { fg = "orange", bg = utils.get_highlight("Normal").bg },
   },
 }
 
@@ -63,7 +63,7 @@ M.TablineFileBlock = utils.insert({
       return (self.is_active or self.is_visible) and "┃" or "│"
     end,
     hl = function(self)
-      return { fg = (self.is_active or self.is_visible) and "blue" or "gray" }
+      return { fg = (self.is_active or self.is_visible) and "blue" or "gray", bg = utils.get_highlight("Normal").bg }
     end,
   },
 }, env.Space(1), env.FileIcon, M.TablineFileName, env.Space(1), M.TablineFileFlags)
@@ -76,7 +76,7 @@ M.TablineCloseButton = {
   env.Space(1),
   provider = "󰅖",
   hl = function(self)
-    return { fg = (self.is_active or self.is_visible) and "red" }
+    return { fg = (self.is_active or self.is_visible) and "red", bg = utils.get_highlight("Normal").bg }
   end,
   on_click = {
     callback = function(_, minwid)

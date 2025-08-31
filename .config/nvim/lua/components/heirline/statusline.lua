@@ -59,7 +59,7 @@ M.GitBranch = utils.insert(M.Git, env.Space(2), {
     local max_len = 20
     return " " .. (#branch < max_len and branch or branch:sub(1, max_len - 3) .. "...")
   end,
-  hl = { fg = "orange", bold = true },
+  hl = { fg = "orange", bold = true, bg = utils.get_highlight("Normal").bg },
   on_click = {
     callback = function()
       picker.git_branches()
@@ -97,6 +97,7 @@ M.GitStatus = utils.insert(M.Git, {
     end,
     hl = { fg = "git_change" },
   },
+  hl = { bg = utils.get_highlight("Normal").bg },
 })
 
 -- FILENAME ------------------------------------------------------------------
@@ -144,7 +145,7 @@ local FileName = {
       self.lfilename = "[No Name]"
     end
   end,
-  hl = { fg = utils.get_highlight("Directory").fg },
+  hl = { fg = utils.get_highlight("Directory").fg, bg = utils.get_highlight("Normal").bg },
   flexible = 2,
   {
     provider = function(self)
@@ -174,6 +175,7 @@ local FileFlags = {
     provider = "",
     hl = { fg = "orange" },
   },
+  hl = { bg = utils.get_highlight("Normal").bg },
 }
 
 M.FileType = utils.insert(M.FileNameBlock, env.Space(2), env.FileIcon, FileName, FileFlags)
@@ -190,7 +192,7 @@ M.LSPActive = {
     end
     return "  " .. table.concat(names, ", ")
   end,
-  hl = { fg = "bright_fg" },
+  hl = { fg = "bright_fg", bg = utils.get_highlight("Normal").bg },
   on_click = {
     callback = function()
       vim.cmd("LspInfo")
@@ -248,13 +250,14 @@ M.Diagnostics = {
     end,
     hl = { fg = "diag_hint" },
   },
+  hl = { bg = utils.get_highlight("Normal").bg },
 }
 
 -- RULER ----------------------------------------------------------------------
 
 M.Ruler = {
   provider = "%l:%L %P",
-  hl = { bg = "None" },
+  hl = { bg = utils.get_highlight("Normal").bg },
   env.Space(2),
 }
 
