@@ -17,36 +17,41 @@ return {
     },
   },
   config = function(_, opts)
+    -- make window transparent
+    vim.api.nvim_set_hl(0, "WhichKeyNormal", { default = true, blend = 20, bg = "NONE" })
+    vim.api.nvim_set_hl(0, "WhichKeyBorder", { default = true, blend = 20, bg = "NONE" })
+
     local wk = require("which-key")
     wk.add({
+      -- group labels
       { "]", desc = "+next" },
       { "[", desc = "+prev" },
-      { "<leader>b", desc = "+buffer" },
+      { "<leader>b", desc = "+buffer", icon = "" },
+      { "<leader>w", desc = "+window", icon = "" },
+      { "<leader>t", desc = "+terminal", icon = "" },
+      { "<leader>c", desc = "+code", icon = "" },
+      { "<leader>d", desc = "+debug (DAP)", icon = "" },
+      { "<leader>e", desc = "File Explorer", icon = "󰝰" },
+      { "<leader>f", desc = "+find/file (Telescope)" },
+      { "<leader>l", "<cmd>Lazy<cr>", desc = "lazy" },
+      { "<leader>m", desc = "+github", icon = "" },
+      { "<leader>x", desc = "+diagnostics/quickfix" },
 
-      { "[b", "<cmd>bprevious<cr>", desc = "Prev Buffer" },
-      { "]b", "<cmd>bnext<cr>", desc = "Next Buffer" },
+      -- buffer navigation
+      { "[b", "<cmd>bprevious<cr>", desc = "Previous Buffer", icon = "" },
+      { "]b", "<cmd>bnext<cr>", desc = "Next Buffer", icon = "" },
 
-      { "<leader>c", desc = "code", icon = "" },
-      { "<leader>d", desc = "DAP", icon = "󰃤" },
-      { "<leader>f", desc = "Telescope (file/find)" },
-      { "<leader>g", desc = "git" },
-      { "<leader>s", desc = "search" },
-      { "<leader>m", desc = "github", icon = "" },
-      { "<leader>n", desc = "+notification" },
-      { "<leader>r", desc = "CodeRunner" },
+      -- window movement
+      { "<C-h>", "<C-w>h", desc = "Go to Left Window", icon = "" },
+      { "<C-j>", "<C-w>j", desc = "Go to Lower Window", icon = "" },
+      { "<C-k>", "<C-w>k", desc = "Go to Upper Window", icon = "" },
+      { "<C-l>", "<C-w>l", desc = "Go to Right Window", icon = "" },
 
-      -- movements between windows (<ctrl> hjkl)
-      { "<C-h>", "<C-w>h", desc = "Go to Left Window" },
-      { "<C-j>", "<C-w>j", desc = "Go to Lower Window" },
-      { "<C-k>", "<C-w>k", desc = "Go to Upper Window" },
-      { "<C-l>", "<C-w>l", desc = "Go to Right Window" },
-
-      -- windows
-      { "<leader>w", desc = "windows" },
-      { "<leader>ww", "<C-W>p", desc = "Other Window" },
-      { "<leader>wd", "<C-W>c", desc = "Delete Window" },
-      { "<leader>-", "<C-W>s", desc = "Split Window Below" },
-      { "<leader>|", "<C-W>v", desc = "Split Window Right" },
+      -- window management
+      { "<leader>ww", "<C-W>p", desc = "Other Window", icon = "󰓩" },
+      { "<leader>wd", "<C-W>c", desc = "Delete Window", icon = "" },
+      { "<leader>-", "<C-W>s", desc = "Split Below", icon = "" },
+      { "<leader>|", "<C-W>v", desc = "Split Right", icon = "" },
 
       -- terminal
       {
@@ -57,15 +62,35 @@ return {
           vim.bo.scrollback = 1
           vim.bo.scrollback = sb
         end,
-        desc = "Clear terminal scrollback",
+        desc = "Clear Terminal Scrollback",
+        icon = "󰚌",
         mode = { "t" },
       },
-      { "<esc><esc>", "<c-\\><c-n>", desc = "Enter Normal Mode", mode = { "t" } },
-      { "<C-/>", "<cmd>close<cr>", desc = "Hide Terminal", mode = { "t" } },
+      { "<esc><esc>", "<c-\\><c-n>", desc = "Enter Normal Mode", mode = { "t" }, icon = "󰌌" },
+      { "<C-/>", "<cmd>close<cr>", desc = "Hide Terminal", mode = { "t" }, icon = "" },
       { "<c-_>", "<cmd>close<cr>", desc = "which_key_ignore", mode = { "t" } },
 
-      { "<leader>x", desc = "+diagnostics/quickfix" },
-      { "<esc>", "<cmd>noh<cr><esc>", desc = "Escape and Clear search", mode = { "i", "n" } },
+      -- misc
+      { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear Search & Escape", mode = { "i", "n" }, icon = "󰛨" },
+      { "<leader>M", "<cmd>Mason<cr>", desc = "Mason" },
+
+      -- goto LSP
+      {
+        "<leader>gtD",
+        function()
+          vim.lsp.buf.declaration()
+        end,
+        desc = "Go to Declaration",
+        icon = "󰙅",
+      },
+      {
+        "<leader>gtd",
+        function()
+          vim.lsp.buf.definition()
+        end,
+        desc = "Go to Definition",
+        icon = "󰙅",
+      },
     })
     wk.setup(opts)
   end,
