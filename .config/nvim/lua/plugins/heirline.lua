@@ -1,6 +1,6 @@
 return {
   "rebelot/heirline.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     {
