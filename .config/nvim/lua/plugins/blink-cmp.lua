@@ -1,35 +1,45 @@
 return {
   "saghen/blink.cmp",
+  version = "1.*",
+  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
-    "L3MON4D3/LuaSnip",
-    "rafamadriz/friendly-snippets",
+    {
+      "L3MON4D3/LuaSnip",
+      event = "InsertEnter",
+      dependencies = { "rafamadriz/friendly-snippets" },
+      config = function()
+        local luasnip = require("luasnip")
+
+        -- Extend snippets for JSX/TSX and Django
+        luasnip.filetype_extend("javascriptreact", { "html" })
+        luasnip.filetype_extend("typescriptreact", { "html" })
+        luasnip.filetype_extend("htmldjango", { "html" })
+
+        -- Lazy-load snippets
+        require("luasnip.loaders.from_vscode").lazy_load({ exclude = { "all" } })
+      end,
+    },
     "nvim-tree/nvim-web-devicons",
     "onsails/lspkind.nvim",
   },
-  version = "1.*",
-  event = "VeryLazy",
 
   opts = function()
     local lspkind = require("lspkind")
-    local luasnip = require("luasnip")
-    luasnip.filetype_extend("javascriptreact", { "html" }) -- snippets for "jsx" from "html"
-    luasnip.filetype_extend("typescriptreact", { "html" }) -- snippets for "tsx" from "html"
-    luasnip.filetype_extend("htmldjango", { "html" }) -- snippets for "htmldjango" from "html"
-    require("luasnip.loaders.from_vscode").lazy_load()
 
-    -- === Highlights for style ===
-    local blend = 15
+    -- Highlight groups
+    local blend = 20
     local highlights = {
-      { "BlinkCmpMenu", { default = true, blend = blend, bg = "NONE" } },
       { "BlinkCmpMenuSelection", { link = "PmenuSel" } },
+      { "BlinkCmpMenu", { default = true, blend = blend, bg = "NONE" } },
       { "BlinkCmpMenuBorder", { default = true, blend = blend, bg = "NONE" } },
-      { "BlinkCmpDoc", { default = true, blend = blend, bg = "NONE" } },
-      { "BlinkCmpDocBorder", { default = true, blend = blend, bg = "NONE" } },
+      { "BlinkCmpDoc", { default = true, link = "BlinkCmpMenu" } },
+      { "BlinkCmpDocBorder", { default = true, link = "BlinkCmpMenuBorder" } },
     }
     for _, h in ipairs(highlights) do
       vim.api.nvim_set_hl(0, h[1], h[2])
     end
 
+    -- Helper for border characters (used for menu)
     local function border(hl)
       return {
         { "╭", hl },
@@ -51,10 +61,6 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 500,
-          window = {
-            border = border("BlinkCmpDocBorder"),
-            winhighlight = "Normal:BlinkCmpDoc",
-          },
         },
         menu = {
           border = border("BlinkCmpMenuBorder"),
