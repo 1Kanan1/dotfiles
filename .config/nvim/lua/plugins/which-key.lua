@@ -6,7 +6,7 @@ return {
     vim.o.timeoutlen = 300
   end,
   opts = {
-    preset = "modern",
+    preset = "helix",
     plugins = { spelling = true },
     icons = {
       group = "",
@@ -17,10 +17,6 @@ return {
     },
   },
   config = function(_, opts)
-    -- make window transparent
-    vim.api.nvim_set_hl(0, "WhichKeyNormal", { default = true, blend = 20, bg = "NONE" })
-    vim.api.nvim_set_hl(0, "WhichKeyBorder", { default = true, blend = 20, bg = "NONE" })
-
     local wk = require("which-key")
     wk.add({
       -- group labels
@@ -67,30 +63,10 @@ return {
         mode = { "t" },
       },
       { "<esc><esc>", "<c-\\><c-n>", desc = "Enter Normal Mode", mode = { "t" }, icon = "󰌌" },
-      { "<C-/>", "<cmd>close<cr>", desc = "Hide Terminal", mode = { "t" }, icon = "" },
-      { "<c-_>", "<cmd>close<cr>", desc = "which_key_ignore", mode = { "t" } },
 
       -- misc
       { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear Search & Escape", mode = { "i", "n" }, icon = "󰛨" },
       { "<leader>M", "<cmd>Mason<cr>", desc = "Mason" },
-
-      -- goto LSP
-      {
-        "<leader>gtD",
-        function()
-          vim.lsp.buf.declaration()
-        end,
-        desc = "Go to Declaration",
-        icon = "󰙅",
-      },
-      {
-        "<leader>gtd",
-        function()
-          vim.lsp.buf.definition()
-        end,
-        desc = "Go to Definition",
-        icon = "󰙅",
-      },
     })
     wk.setup(opts)
   end,

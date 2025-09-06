@@ -1,6 +1,6 @@
 return {
   "rebelot/heirline.nvim",
-  event = "BufReadPost",
+  event = "VeryLazy",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     {
@@ -15,9 +15,6 @@ return {
     { "lewis6991/gitsigns.nvim", opts = {} },
   },
   opts = function()
-    vim.api.nvim_set_hl(0, "WinBar", { link = "Normal" })
-    vim.api.nvim_set_hl(0, "WinBarNC", { link = "Normal" })
-
     return require("components.heirline")
   end,
 }
