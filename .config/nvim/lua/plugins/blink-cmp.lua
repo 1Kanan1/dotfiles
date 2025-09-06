@@ -4,6 +4,16 @@ return {
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          "lazy.nvim",
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
+    },
+    {
       "L3MON4D3/LuaSnip",
       event = "InsertEnter",
       dependencies = { "rafamadriz/friendly-snippets" },
@@ -54,13 +64,22 @@ return {
     end
 
     return {
-      keymap = { preset = "default" },
+      keymap = {
+        preset = "enter",
+        ["<Tab>"] = { "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
+      },
       snippets = { preset = "luasnip" },
       appearance = { nerd_font_variant = "normal" },
       completion = {
+        list = { selection = { auto_insert = true } },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 500,
+          window = {
+            border = border("BlinkCmpDocBorder"),
+            winhighlight = "Normal:BlinkCmpDoc",
+          },
         },
         menu = {
           border = border("BlinkCmpMenuBorder"),
@@ -96,7 +115,15 @@ return {
         },
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 100,
+          },
+        },
       },
     }
   end,
