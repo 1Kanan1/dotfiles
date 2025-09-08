@@ -50,7 +50,7 @@ vim.diagnostic.config({
 require("lazy").setup({
   defaults = { lazy = true },
   spec = { { import = "plugins" } },
-  install = { colorscheme = { "onedark", "tokyonight" } },
+  install = { colorscheme = { "tokyonight" } },
   checker = { enabled = true }, -- automatic plugin update checks
   change_detection = { notify = false }, -- don't spam notifications
   performance = {

@@ -1,24 +1,5 @@
 return {
   {
-    "navarasu/onedark.nvim",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("onedark").setup({
-        style = "deep",
-      })
-      vim.cmd("colorscheme onedark")
-
-      -- highlight overrides
-      vim.api.nvim_set_hl(0, "WinBar", { link = "Normal" })
-      vim.api.nvim_set_hl(0, "WinBarNC", { link = "Normal" })
-
-      vim.api.nvim_set_hl(0, "WhichKeyNormal", { default = true, blend = 20, bg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeyBorder", { default = true, blend = 20, bg = "NONE" })
-    end,
-  },
-  {
     -- TODO: fix heirline and highlights issue (blink's transparency, which-key, etc.)
     "folke/tokyonight.nvim",
     enabled = true,
