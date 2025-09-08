@@ -28,7 +28,7 @@ vim.g.maplocalleader = "\\"
 local signs = {
   [vim.diagnostic.severity.ERROR] = { icon = "", hl = "DiagnosticSignError" },
   [vim.diagnostic.severity.WARN] = { icon = "", hl = "DiagnosticSignWarn" },
-  [vim.diagnostic.severity.HINT] = { icon = "", hl = "DiagnosticSignHint" },
+  [vim.diagnostic.severity.HINT] = { icon = "", hl = "DiagnosticSignHint" },
   [vim.diagnostic.severity.INFO] = { icon = "", hl = "DiagnosticSignInfo" },
 }
 
@@ -50,7 +50,7 @@ vim.diagnostic.config({
 require("lazy").setup({
   defaults = { lazy = true },
   spec = { { import = "plugins" } },
-  install = { colorscheme = { "onedark" } },
+  install = { colorscheme = { "onedark", "tokyonight" } },
   checker = { enabled = true }, -- automatic plugin update checks
   change_detection = { notify = false }, -- don't spam notifications
   performance = {
