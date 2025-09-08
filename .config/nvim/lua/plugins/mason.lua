@@ -1,6 +1,7 @@
 return {
   "mason-org/mason-lspconfig.nvim",
-  event = "VeryLazy",
+  event = { "BufReadPre", "BufNewFile" },
+  cmd = "Mason",
   dependencies = {
     {
       "mason-org/mason.nvim",
@@ -12,7 +13,9 @@ return {
           -- linters
           -- formatters
           "stylua",
-          "prettier",
+          "-prettier",
+          "prettierd",
+          "eslint_d",
           "-djlint",
         }
 
@@ -41,6 +44,7 @@ return {
         "ruff",
         "pyright",
         -- "ts_ls",
+        "emmet_ls",
         "vtsls",
         "html",
         "cssls",
