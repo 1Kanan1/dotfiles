@@ -25,15 +25,30 @@
   lg = lg1
 
 [core]
-    pager = delta # dandavison/delta
+  pager = delta # dandavison/delta
 
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [delta]
-    line-numbers = true
-    navigate = true  # use n and N to move between diff sections
-    dark = true      # or light = true, or omit for auto-detection
+  line-numbers = true
+  features = tokyonight-moon
+  navigate = true  # use n and N to move between diff sections
+  ; dark = true      # or light = true, or omit for auto-detection
 
 [merge]
-    conflictStyle = zdiff3
+  conflictStyle = zdiff3
+
+; folke/tokyonight.nvim theme for delta
+[delta "tokyonight-moon"]
+  minus-style                   = syntax "#3a273a"
+  minus-non-emph-style          = syntax "#3a273a"
+  minus-emph-style              = syntax "#6b2e43"
+  minus-empty-line-marker-style = syntax "#3a273a"
+  line-numbers-minus-style      = "#e26a75"
+  plus-style                    = syntax "#273849"
+  plus-non-emph-style           = syntax "#273849"
+  plus-emph-style               = syntax "#305f6f"
+  plus-empty-line-marker-style  = syntax "#273849"
+  line-numbers-plus-style       = "#b8db87"
+  line-numbers-zero-style       = "#3b4261"

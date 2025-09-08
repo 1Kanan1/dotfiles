@@ -42,7 +42,7 @@ function M.setup_colors()
     diag_error  = get("DiagnosticError").fg,
     diag_hint   = get("DiagnosticHint").fg,
     diag_info   = get("DiagnosticInfo").fg,
-    git_del     = get("diffDeleted").fg,
+    git_del     = get("diffRemoved").fg,        -- onedark: git("diffDeleted").fg
     git_add     = get("diffAdded").fg,
     git_change  = get("diffChanged").fg,
   }
