@@ -1,35 +1,24 @@
 return {
-	{
-		"echasnovski/mini.nvim",
-		lazy = false,
-		config = function()
-			require("mini.ai").setup()
-			require("mini.pairs").setup()
-			require("mini.bufremove").setup()
-			require("mini.surround").setup()
-		end,
-		keys = {
-			{
-				"<leader>bd",
-				function()
-					local bd = require("mini.bufremove").delete
-					if vim.bo.modified then
-						local choice =
-							vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
-						if choice == 1 then -- Yes
-							vim.cmd.write()
-							bd(0)
-						elseif choice == 2 then -- No
-							bd(0, true)
-						end
-					else
-						bd(0)
-					end
-				end,
-				desc = "Delete Buffer",
-			},
-		    -- stylua: ignore
-		    { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
-		},
-	},
+  {
+    "echasnovski/mini.nvim",
+    config = function()
+      require("mini.ai").setup()
+      require("mini.pairs").setup()
+      require("mini.bufremove").setup()
+      require("mini.surround").setup()
+      -- FIX: (mini.sessions) There is no detected sessions. Change configuration and rerun `MiniSessions.setup()`.
+      require("mini.sessions").setup()
+      require("mini.comment").setup({
+        options = {
+          custom_commentstring = function()
+            return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring
+          end,
+        },
+      })
+    end,
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    ft = { "html", "javascript", "typescript", "svelte", "vue", "tsx", "jsx" },
+  },
 }
