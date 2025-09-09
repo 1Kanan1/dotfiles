@@ -56,8 +56,8 @@ M.Git = {
 M.GitBranch = utils.insert(M.Git, env.Space(2), {
   provider = function(self)
     local branch = self.status_dict.head
-    local max_len = 20
-    return " " .. (#branch < max_len and branch or branch:sub(1, max_len - 3) .. "...")
+    local max_len = 15
+    return " " .. (#branch < max_len and branch or branch:sub(1, max_len - 1) .. "…")
   end,
   hl = { fg = "orange", bold = true, bg = utils.get_highlight("Normal").bg },
   on_click = {
@@ -71,7 +71,7 @@ M.GitBranch = utils.insert(M.Git, env.Space(2), {
 M.GitStatus = utils.insert(M.Git, {
   on_click = {
     callback = function()
-      picker.git_status()
+      picker.git_status({ cwd = vim.fs.root(0, ".git") })
     end,
     name = "heirline_git_status",
   },
@@ -102,10 +102,12 @@ M.GitStatus = utils.insert(M.Git, {
 
 -- FILENAME ------------------------------------------------------------------
 
+-- TODO: provide folder name like in LazyVim
 M.FileNameBlock = {
   init = function(self)
     self.filename = vim.api.nvim_buf_get_name(0)
   end,
+  hl = { bg = utils.get_highlight("Normal").bg },
 }
 
 local FileName = {
@@ -114,28 +116,15 @@ local FileName = {
       self.lfilename = self.filename:gsub("^term://.*/+(%d+):.*$", "term:%1")
     else
       local path = vim.fn.fnamemodify(self.filename, ":.")
-      local max_len = 30
+      local parts = {}
+      for part in path:gmatch("[^/]+") do
+        table.insert(parts, part)
+      end
 
-      if #path > max_len then
-        local is_abs = path:sub(1, 1) == "/"
-        local parts = {}
-        for part in path:gmatch("[^/]+") do
-          table.insert(parts, part)
-        end
-
-        local short_parts = {}
-        for i = 1, #parts - 1 do
-          local dir = parts[i]
-          short_parts[i] = dir:match("^%.?%w") or dir:sub(1, 1)
-        end
-        short_parts[#parts] = parts[#parts] -- keep filename intact
-
-        local short_path = table.concat(short_parts, "/")
-        if is_abs then
-          short_path = "/" .. short_path
-        end
-
-        self.lfilename = short_path
+      if #parts > 3 then
+        -- Keep first folder, add "...", keep last two (second-to-last folder + filename)
+        local short_parts = { parts[1], "…", parts[#parts - 1], parts[#parts] }
+        self.lfilename = table.concat(short_parts, "/")
       else
         self.lfilename = path
       end
@@ -145,16 +134,11 @@ local FileName = {
       self.lfilename = "[No Name]"
     end
   end,
-  hl = { fg = utils.get_highlight("Directory").fg, bg = utils.get_highlight("Normal").bg },
+  hl = { fg = utils.get_highlight("Directory").fg },
   flexible = 2,
   {
     provider = function(self)
       return self.lfilename
-    end,
-  },
-  {
-    provider = function(self)
-      return vim.fn.pathshorten(self.lfilename)
     end,
   },
 }
@@ -175,7 +159,6 @@ local FileFlags = {
     provider = "",
     hl = { fg = "orange" },
   },
-  hl = { bg = utils.get_highlight("Normal").bg },
 }
 
 M.FileType = utils.insert(M.FileNameBlock, env.Space(2), env.FileIcon, FileName, FileFlags)
