@@ -3,7 +3,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    event = "VeryLazy",
+    event = "BufReadPost",
     -- lazy = false, -- optional, as nvim-ts-autotag already loads it
     dependencies = {
       "windwp/nvim-ts-autotag",
