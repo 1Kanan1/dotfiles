@@ -18,19 +18,16 @@ return {
   },
   config = function(_, opts)
     local wk = require("which-key")
+    -- TODO: tidy up
     wk.add({
       -- group labels
       { "]", desc = "+next" },
       { "[", desc = "+prev" },
-      { "<leader>b", desc = "+buffer", icon = "" },
-      { "<leader>w", desc = "+window", icon = "" },
-      { "<leader>t", desc = "+terminal", icon = "" },
       { "<leader>c", desc = "+code", icon = "" },
       { "<leader>d", desc = "+debug (DAP)", icon = "" },
-      { "<leader>e", desc = "File Explorer", icon = "󰝰" },
       { "<leader>f", desc = "+find/file (Telescope)" },
       { "<leader>l", "<cmd>Lazy<cr>", desc = "lazy" },
-      { "<leader>m", desc = "+github", icon = "" },
+      { "<leader>m", "<cmd>Mason<cr>", desc = "Mason" },
       { "<leader>x", desc = "+diagnostics/quickfix" },
 
       -- buffer navigation
@@ -44,6 +41,7 @@ return {
       { "<C-l>", "<C-w>l", desc = "Go to Right Window", icon = "" },
 
       -- window management
+      { "<leader>w", desc = "+window", icon = "" },
       { "<leader>ww", "<C-W>p", desc = "Other Window", icon = "󰓩" },
       { "<leader>wd", "<C-W>c", desc = "Delete Window", icon = "" },
       { "<leader>-", "<C-W>s", desc = "Split Below", icon = "" },
@@ -62,11 +60,9 @@ return {
         icon = "󰚌",
         mode = { "t" },
       },
-      { "<esc><esc>", "<c-\\><c-n>", desc = "Enter Normal Mode", mode = { "t" }, icon = "󰌌" },
 
       -- misc
       { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear Search & Escape", mode = { "i", "n" }, icon = "󰛨" },
-      { "<leader>M", "<cmd>Mason<cr>", desc = "Mason" },
     })
     wk.setup(opts)
   end,
