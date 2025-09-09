@@ -9,18 +9,54 @@ end
 
 M.FileIcon = {
   init = function(self)
-    local ext = vim.fn.fnamemodify(self.filename, ":e")
-    ext = ext ~= "" and ext or vim.fn.fnamemodify(self.filename, ":t")
-    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(self.filename, ext, { default = true })
+    local filepath = self.filename or ""
+    local name = vim.fn.fnamemodify(filepath, ":t") -- basename (e.g., env.lua)
+    local ext = vim.fn.fnamemodify(filepath, ":e") -- extension (e.g., lua)
+    ext = ext ~= "" and ext or "file"
+    local icon, color
+
+    -- Check if this is a terminal buffer
+    local is_term = vim.bo.buftype == "terminal" or filepath:match("^term://")
+
+    if is_term then
+      -- Use a terminal icon
+      icon = "" -- Nerd Font terminal icon
+      color = utils.get_highlight("Function").fg -- optional color for terminal
+    else
+      -- Try mini.icons first
+      local ok, MiniIcons = pcall(require, "mini.icons")
+      if ok then
+        local hl
+        icon, hl = MiniIcons.get("file", name)
+        if icon then
+          color = hl and vim.api.nvim_get_hl(0, { name = hl }).fg or nil
+        end
+      end
+
+      -- Fallback to nvim-web-devicons
+      if not self.icon then
+        local ok_dev, devicons = pcall(require, "nvim-web-devicons")
+        if ok_dev then
+          icon, color = devicons.get_icon_color(name, ext, { default = true })
+        end
+      end
+    end
+
+    -- Default fallback
+    self.icon = icon or ""
+    self.icon_color = color or utils.get_highlight("Normal").fg
   end,
+
   provider = function(self)
     return self.icon and (self.icon .. " ")
   end,
+
   hl = function(self)
+    local bg = utils.get_highlight("Normal").bg
     if self.bufnr and not (self.is_active or self.is_visible) then
-      return { bg = utils.get_highlight("Normal").bg }
+      return { bg = bg }
     end
-    return { fg = self.icon_color, bg = utils.get_highlight("Normal").bg }
+    return { fg = self.icon_color, bg = bg }
   end,
 }
 
@@ -42,7 +78,7 @@ function M.setup_colors()
     diag_error  = get("DiagnosticError").fg,
     diag_hint   = get("DiagnosticHint").fg,
     diag_info   = get("DiagnosticInfo").fg,
-    git_del     = get("diffRemoved").fg,        -- onedark: git("diffDeleted").fg
+    git_del     = get("diffRemoved").fg,        -- onedark: get("diffDeleted").fg
     git_add     = get("diffAdded").fg,
     git_change  = get("diffChanged").fg,
   }
