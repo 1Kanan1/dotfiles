@@ -7,13 +7,13 @@ return {
     disable_winbar_cb = function(args)
       return conditions.buffer_matches({
         buftype = { "nofile", "prompt", "help", "quickfix" },
-        filetype = { "Terminal", "^git.*", "fugitive", "Trouble", "dashboard" },
+        filetype = { "Terminal", "^git.*", "fugitive", "Trouble", "snacks_dashboard" },
       }, args.buf)
     end,
   },
 
   statusline = require("components.heirline.statusline").StatusLine,
-  winbar = nil,
+  winbar = require("components.heirline.winbar").WinBar,
   tabline = require("components.heirline.tabline").TabLine,
   -- statuscolumn = {},
 }
