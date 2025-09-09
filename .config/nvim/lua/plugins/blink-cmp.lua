@@ -29,26 +29,20 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load({ exclude = { "all" } })
       end,
     },
+    "fang2hou/blink-copilot",
+    {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      opts = {
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      },
+    },
     "nvim-tree/nvim-web-devicons",
     "onsails/lspkind.nvim",
   },
 
   opts = function()
-    local lspkind = require("lspkind")
-
-    -- Highlight groups
-    local blend = 20
-    local highlights = {
-      { "BlinkCmpMenuSelection", { link = "PmenuSel" } },
-      { "BlinkCmpMenu", { default = true, blend = blend, bg = "NONE" } },
-      { "BlinkCmpMenuBorder", { default = true, blend = blend, bg = "NONE" } },
-      { "BlinkCmpDoc", { default = true, link = "BlinkCmpMenu" } },
-      { "BlinkCmpDocBorder", { default = true, link = "BlinkCmpMenuBorder" } },
-    }
-    for _, h in ipairs(highlights) do
-      vim.api.nvim_set_hl(0, h[1], h[2])
-    end
-
     -- Helper for border characters (used for menu)
     local function border(hl)
       return {
@@ -95,10 +89,11 @@ return {
                       icon = dev_icon
                     end
                   else
-                    icon = lspkind.symbolic(ctx.kind, { mode = "symbol" })
+                    icon = require("lspkind").symbolic(ctx.kind, { mode = "symbol" })
                   end
                   return icon .. ctx.icon_gap
                 end,
+
                 highlight = function(ctx)
                   local hl = ctx.kind_hl
                   if vim.tbl_contains({ "Path" }, ctx.source_name) then
@@ -115,13 +110,19 @@ return {
         },
       },
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        default = { "lazydev", "copilot", "lsp", "path", "snippets", "buffer" },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
+          },
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
           },
         },
       },
