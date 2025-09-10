@@ -109,15 +109,16 @@ M.FileNameBlock = {
   hl = { bg = utils.get_highlight("Normal").bg },
 }
 
--- TODO: symlinks provide different cwd
 local Folder = {
   init = function(self)
     local root = vim.fs.root(0, { ".git", "package.json", "pyproject.toml", "Cargo.toml", "go.mod" })
+    local cwd = vim.fn.getcwd()
 
     if root then
-      self.fdname = root:match("([^/]+)$")
+      -- checks if root is a subdir of cwd and returns cwd; otherwise, root
+      self.fdname = (cwd:find(root, 1, true) == 1 and cwd or root):match("([^/]+)$")
     else
-      self.fdname = vim.fn.getcwd():match("([^/]+)$")
+      self.fdname = cwd:match("([^/]+)$")
     end
 
     local icon, color
