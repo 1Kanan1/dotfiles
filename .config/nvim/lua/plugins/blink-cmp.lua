@@ -29,15 +29,6 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load({ exclude = { "all" } })
       end,
     },
-    "fang2hou/blink-copilot",
-    {
-      "zbirenbaum/copilot.lua",
-      cmd = "Copilot",
-      opts = {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      },
-    },
     "nvim-tree/nvim-web-devicons",
     "onsails/lspkind.nvim",
   },
@@ -110,19 +101,13 @@ return {
         },
       },
       sources = {
-        default = { "lazydev", "copilot", "lsp", "path", "snippets", "buffer" },
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-copilot",
-            score_offset = 100,
-            async = true,
           },
         },
       },
