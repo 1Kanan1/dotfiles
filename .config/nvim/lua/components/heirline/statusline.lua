@@ -102,12 +102,46 @@ M.GitStatus = utils.insert(M.Git, {
 
 -- FILENAME ------------------------------------------------------------------
 
--- TODO: provide folder name like in LazyVim
 M.FileNameBlock = {
   init = function(self)
     self.filename = vim.api.nvim_buf_get_name(0)
   end,
   hl = { bg = utils.get_highlight("Normal").bg },
+}
+
+-- TODO: symlinks provide different cwd
+local Folder = {
+  init = function(self)
+    local root = vim.fs.root(0, { ".git", "package.json", "pyproject.toml", "Cargo.toml", "go.mod" })
+
+    if root then
+      self.fdname = root:match("([^/]+)$")
+    else
+      self.fdname = vim.fn.getcwd():match("([^/]+)$")
+    end
+
+    local icon, color
+    local ok, MiniIcons = pcall(require, "mini.icons")
+    if ok then
+      local hl
+      icon, hl = MiniIcons.get("directory", self.fdname)
+      if icon then
+        color = hl and vim.api.nvim_get_hl(0, { name = hl }).fg or nil
+      end
+    end
+    self.icon = icon or nil
+    self.icon_color = color or nil
+  end,
+
+  provider = function(self)
+    return self.icon and (self.icon .. " " .. self.fdname)
+  end,
+
+  hl = function(self)
+    return { fg = self.icon_color }
+  end,
+
+  env.Space(2),
 }
 
 local FileName = {
@@ -131,7 +165,7 @@ local FileName = {
     end
 
     if self.lfilename == "" then
-      self.lfilename = "[No Name]"
+      self.lfilename = vim.bo.filetype ~= "" and vim.bo.filetype or "[No Name]"
     end
   end,
   hl = { fg = utils.get_highlight("Directory").fg },
@@ -161,7 +195,7 @@ local FileFlags = {
   },
 }
 
-M.FileType = utils.insert(M.FileNameBlock, env.Space(2), env.FileIcon, FileName, FileFlags)
+M.FileType = utils.insert(M.FileNameBlock, env.Space(2), Folder, env.FileIcon, FileName, FileFlags)
 
 -- LSP ------------------------------------------------------------------------
 
