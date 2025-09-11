@@ -71,7 +71,7 @@ M.GitBranch = utils.insert(M.Git, env.Space(2), {
 M.GitStatus = utils.insert(M.Git, {
   on_click = {
     callback = function()
-      picker.git_status({ cwd = vim.fs.root(0, ".git") })
+      picker.git_diff({ cwd = vim.fs.root(0, ".git") })
     end,
     name = "heirline_git_status",
   },
