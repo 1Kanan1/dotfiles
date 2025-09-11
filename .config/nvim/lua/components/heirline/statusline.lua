@@ -204,8 +204,12 @@ M.LSPActive = {
   condition = conditions.lsp_attached,
   update = { "LspAttach", "LspDetach" },
   provider = function()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-    return "  " .. clients[1].name .. (#clients > 1 and ", +" .. #clients - 1 or "")
+    local clients = {}
+    for _, server in pairs(vim.lsp.get_clients()) do
+      table.insert(clients, server.name)
+    end
+
+    return "  " .. clients[1] .. (#clients > 1 and ", +" .. #clients - 1 or "")
   end,
   hl = { fg = "bright_fg", bg = utils.get_highlight("Normal").bg },
   on_click = {
