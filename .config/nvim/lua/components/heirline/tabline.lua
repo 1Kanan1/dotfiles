@@ -12,7 +12,11 @@ M.TablineFileName = {
     return vim.fn.fnamemodify(filename, ":.:h:t") .. "/" .. vim.fn.fnamemodify(filename, ":t")
   end,
   hl = function(self)
-    return { fg = "darkgray", bold = self.is_active or self.is_visible, bg = utils.get_highlight("Normal").bg }
+    return {
+      fg = (self.is_active or self.is_visible) and "#C8D3F5" or "#636DA6",
+      bold = self.is_active or self.is_visible,
+      bg = utils.get_highlight("Normal").bg,
+    }
   end,
 }
 
