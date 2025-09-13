@@ -1,4 +1,5 @@
 return {
+  -- automatically installs and enables (vim.lsp.enable())
   "mason-org/mason-lspconfig.nvim",
   event = { "BufReadPre", "BufNewFile" },
   cmd = "Mason",
@@ -11,12 +12,27 @@ return {
         local ensure_installed = {
           -- dap
           -- linters
+          "eslint_d",
           -- formatters
           "stylua",
           "-prettier",
           "prettierd",
-          "eslint_d",
+          "biome", -- prettier alternative
           "-djlint",
+          -- lsp
+          "lua_ls",
+          "ruff",
+          "pyright",
+          "-ts_ls",
+          "-emmet_ls",
+          "vtsls",
+          "-oxlint", -- not ready yet for nvim
+          "html",
+          "cssls",
+          "jsonls",
+          "yamlls",
+          "tailwindcss",
+          "svelte",
         }
 
         local mr = require("mason-registry")
@@ -37,22 +53,5 @@ return {
     },
     "neovim/nvim-lspconfig",
   },
-  config = function()
-    require("mason-lspconfig").setup({
-      ensure_installed = {
-        "lua_ls",
-        "ruff",
-        "pyright",
-        -- "ts_ls",
-        "emmet_ls",
-        "vtsls",
-        "html",
-        "cssls",
-        "jsonls",
-        "yamlls",
-        "tailwindcss",
-        "svelte",
-      },
-    })
-  end,
+  opts = {},
 }
