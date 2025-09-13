@@ -65,7 +65,7 @@ set -x PYTHONPYCACHEPREFIX "/tmp/__pycache__/"
 set -x PATH "/opt/homebrew/opt/rustup/bin:$PATH"
 set -x PATH "$HOME/.cargo/bin:$PATH"
 
-
+bind \cr _atuin_search
 
 # custom 'trash'
 function trash
