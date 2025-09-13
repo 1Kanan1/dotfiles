@@ -36,7 +36,7 @@ M.TablineFileFlags = {
         or vim.api.nvim_get_option_value("readonly", { buf = self.bufnr })
     end,
     provider = function(self)
-      return vim.bo[self.bufnr].buftype ~= "terminal" and ""
+      return vim.bo[self.bufnr].buftype ~= "terminal" and " "
     end,
     hl = { fg = "orange", bg = utils.get_highlight("Normal").bg },
   },
