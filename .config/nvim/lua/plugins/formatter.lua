@@ -15,6 +15,7 @@ return {
         javascriptreact = { "biome", "eslint_d" },
         typescript = { "biome", "eslint_d" },
         typescriptreact = { "biome", "eslint_d" },
+        sql = { "sqruff" },
         json = { "biome" },
         markdown = { "prettierd" },
         vue = { "prettierd" },

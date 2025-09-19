@@ -19,6 +19,7 @@ return {
           "prettierd",
           "biome", -- prettier alternative
           "-djlint",
+          "sqruff",
           -- lsp
           "lua_ls",
           "ruff",
@@ -27,6 +28,7 @@ return {
           "-emmet_ls",
           "vtsls",
           "oxlint",
+          "sqls",
           "html",
           "cssls",
           "jsonls",
