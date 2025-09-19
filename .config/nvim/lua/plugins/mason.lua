@@ -26,7 +26,7 @@ return {
           "-ts_ls",
           "-emmet_ls",
           "vtsls",
-          "-oxlint", -- not ready yet for nvim
+          "oxlint",
           "html",
           "cssls",
           "jsonls",
