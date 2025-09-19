@@ -75,7 +75,12 @@ M.GitStatus = utils.insert(M.Git, {
     end,
     name = "heirline_git_status",
   },
-  env.Space(2),
+  {
+    condition = function(self)
+      return self.has_changes
+    end,
+    provider = string.rep(" ", 2),
+  },
   {
     provider = function(self)
       local count = self.status_dict.added or 0
@@ -105,6 +110,8 @@ M.GitStatus = utils.insert(M.Git, {
 M.FileNameBlock = {
   init = function(self)
     self.filename = vim.api.nvim_buf_get_name(0)
+    self.modified = vim.bo.modified
+    self.read_only = not vim.bo.modifiable or vim.bo.readonly
   end,
   hl = { bg = utils.get_highlight("Normal").bg },
 }
@@ -179,17 +186,22 @@ local FileName = {
 }
 
 local FileFlags = {
-  env.Space(1),
   {
-    condition = function()
-      return vim.bo.modified
+    condition = function(self)
+      return self.modified or self.read_only
+    end,
+    provider = string.rep(" ", 1),
+  },
+  {
+    condition = function(self)
+      return self.modified
     end,
     provider = "",
     hl = { fg = "white" },
   },
   {
-    condition = function()
-      return not vim.bo.modifiable or vim.bo.readonly
+    condition = function(self)
+      return self.read_only
     end,
     provider = "",
     hl = { fg = "orange" },
@@ -224,7 +236,6 @@ M.LSPActive = {
 -- DIAGNOSTICS ----------------------------------------------------------------
 
 M.Diagnostics = {
-  env.Space(2),
   condition = conditions.has_diagnostics,
   static = {
     error_icon = signs[vim.diagnostic.severity.ERROR],
@@ -245,6 +256,10 @@ M.Diagnostics = {
     name = "heirline_diagnostics",
   },
   update = { "DiagnosticChanged", "BufEnter" },
+  {
+    condition = conditions.has_diagnostics(),
+    provider = string.rep(" ", 1),
+  },
   {
     provider = function(self)
       return self.errors > 0 and (self.error_icon .. " " .. self.errors .. " ")
