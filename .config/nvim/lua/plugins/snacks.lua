@@ -3,6 +3,26 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    dependencies = {
+      -- to avoid unexpected behaviors, keep it in deps
+      {
+        "kevinhwang91/nvim-ufo",
+        event = "BufReadPre",
+        dependencies = {
+          "kevinhwang91/promise-async",
+        },
+        config = function()
+          vim.o.foldlevel = 99
+          vim.o.foldlevelstart = 99
+
+          require("ufo").setup({
+            provider_selector = function()
+              return { "treesitter", "indent" }
+            end,
+          })
+        end,
+      },
+    },
     ---@type snacks.Config
     opts = {
       -- your configuration comes here
@@ -172,23 +192,6 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
-  },
-  {
-    "kevinhwang91/nvim-ufo",
-    event = "BufReadPre",
-    dependencies = {
-      "kevinhwang91/promise-async",
-    },
-    config = function()
-      vim.o.foldlevel = 99
-      vim.o.foldlevelstart = 99
-
-      require("ufo").setup({
-        provider_selector = function()
-          return { "treesitter", "indent" }
-        end,
-      })
-    end,
   },
   {
     "folke/todo-comments.nvim",
