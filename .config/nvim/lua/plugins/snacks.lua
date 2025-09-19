@@ -3,26 +3,6 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    dependencies = {
-      {
-        "kevinhwang91/nvim-ufo",
-        dependencies = {
-          "kevinhwang91/promise-async",
-        },
-        event = "VeryLazy",
-        config = function()
-          vim.o.foldlevel = 99
-          vim.o.foldlevelstart = 99
-
-          require("ufo").setup({
-            provider_selector = function()
-              return { "treesitter", "indent" }
-            end,
-          })
-        end,
-      },
-      "lewis6991/gitsigns.nvim",
-    },
     ---@type snacks.Config
     opts = {
       -- your configuration comes here
@@ -71,6 +51,33 @@ return {
         { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History", icon = "" },
         { "<leader>e",  function() Snacks.explorer({ cwd = vim.fs.root(0, ".git") }) end, desc = "File Explorer", icon = "" },
 
+        -- lazy
+        { "<leader>l", desc = "+lazy" },
+        { "<leader>ll", "<cmd>Lazy<cr>", desc = "Lazy" },
+        { "<leader>ld",
+          function()
+            Snacks.terminal.toggle("lazydocker", {
+              interactive = true,
+              win = { border = "rounded", title = "lazydocker" }
+            })
+          end,
+          desc = "Lazydocker",
+          icon = { icon = "", color = "blue" }
+        },
+        { "<leader>lp",
+          function()
+            Snacks.terminal.toggle("lazydocker", {
+              interactive = true,
+              env = {
+                DOCKER_HOST = "unix:///var/folders/qm/cpldggtd3c9fm24dz_g7mjgc0000gn/T/podman/podman-machine-default-api.sock"
+              },
+              win = { border = "rounded", title = "lazypodman" }
+            })
+          end,
+          desc = "Lazypodman",
+          icon = ""
+        },
+
         -- toggle
         { "<leader>t", desc = "Toggle" },
         { "<leader>tc", function() require("copilot.command").toggle() end, desc = "Toggle Copilot", icon = "" },
@@ -105,7 +112,7 @@ return {
         { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
         { "<leader>gB", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
         { "<leader>ge", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-        { "<leader>gg", function() Snacks.lazygit({ cwd = vim.fs.root(0, '.git') }) end, desc = "Lazygit" },
+        { "<leader>gg", function() Snacks.lazygit({ cwd = vim.fs.root(0, '.git'), win = { border = "rounded", title = "lazygit" } }) end, desc = "Lazygit" },
 
         -- Grep
         { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
@@ -159,6 +166,27 @@ return {
         { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File", icon = "󰑕" },
         -- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
         -- { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+      })
+    end,
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufReadPre",
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    event = "BufReadPre",
+    dependencies = {
+      "kevinhwang91/promise-async",
+    },
+    config = function()
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+
+      require("ufo").setup({
+        provider_selector = function()
+          return { "treesitter", "indent" }
+        end,
       })
     end,
   },
