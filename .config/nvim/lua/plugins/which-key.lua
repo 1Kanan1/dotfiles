@@ -26,7 +26,6 @@ return {
       { "<leader>c", desc = "+code", icon = "" },
       { "<leader>d", desc = "+debug (DAP)", icon = "" },
       { "<leader>f", desc = "+find/file (Telescope)" },
-      { "<leader>l", "<cmd>Lazy<cr>", desc = "lazy" },
       { "<leader>L", "<cmd>LspInfo<cr>", desc = "LSP Info" },
       { "<leader>m", "<cmd>Mason<cr>", desc = "Mason" },
       { "<leader>x", desc = "+diagnostics/quickfix" },
