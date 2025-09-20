@@ -14,7 +14,9 @@ return {
         headings = presets.headings.glow,
         horizontal_rules = presets.horizontal_rules.thick,
       },
-      experimental = { check_rtp_message = false },
+      preview = {
+        icon_provider = "mini",
+      },
     })
   end,
 }
