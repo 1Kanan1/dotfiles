@@ -35,20 +35,6 @@ return {
     },
 
     opts = function()
-      -- Helper for border characters (used for menu)
-      local function border(hl)
-        return {
-          { "╭", hl },
-          { "─", hl },
-          { "╮", hl },
-          { "│", hl },
-          { "╯", hl },
-          { "─", hl },
-          { "╰", hl },
-          { "│", hl },
-        }
-      end
-
       return {
         keymap = {
           preset = "enter",
@@ -63,13 +49,11 @@ return {
             auto_show = true,
             auto_show_delay_ms = 500,
             window = {
-              border = border("BlinkCmpDocBorder"),
-              winhighlight = "Normal:BlinkCmpDoc",
+              border = "rounded",
             },
           },
           menu = {
-            border = border("BlinkCmpMenuBorder"),
-            winhighlight = "Normal:BlinkCmpMenu,CursorLine:BlinkCmpMenuSelection,Search:None",
+            border = "rounded",
             draw = {
               components = {
                 kind_icon = {
