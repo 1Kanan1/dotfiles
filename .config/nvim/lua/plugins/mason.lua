@@ -12,22 +12,18 @@ return {
         local ensure_installed = {
           -- dap
           -- linters
-          "eslint_d",
           -- formatters
           "stylua",
-          "-prettier",
           "prettierd",
-          "biome", -- prettier alternative
-          "-djlint",
           "sqruff",
           -- lsp
+          "biome", -- prettier alternative (biome.json[c])
           "lua_ls",
           "ruff",
           "pyright",
-          "-ts_ls",
-          "-emmet_ls",
           "vtsls",
-          "oxlint",
+          "eslint-lsp", -- LSP, Formatter (js,jsx,ts,tsx)
+          "-oxlint",
           "sqls",
           "html",
           "cssls",
