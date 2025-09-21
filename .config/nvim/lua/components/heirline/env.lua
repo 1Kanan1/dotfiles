@@ -16,7 +16,7 @@ M.FileIcon = {
     local icon, color
 
     -- Check if this is a terminal buffer
-    local is_term = vim.bo.buftype == "terminal" or filepath:match("^term://")
+    local is_term = vim.b.buftype == "terminal" or filepath:match("^term://")
 
     if is_term then
       -- Use a terminal icon
