@@ -112,5 +112,9 @@ return {
     end,
     opts_extend = { "sources.default" },
   },
-  { "brenoprata10/nvim-highlight-colors", event = "BufReadPre", opts = { enable_tailwind = true } },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    event = "BufReadPre",
+    opts = { enable_tailwind = true, exclude_filetypes = { "markdown" } },
+  },
 }
