@@ -49,7 +49,9 @@ return {
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },
-      statuscolumn = require("components.snacks.statuscolumn").opts,
+      statuscolumn = {
+        folds = { open = true, git_hl = true },
+      },
       words = { enabled = true },
     },
     -- stylua: ignore
