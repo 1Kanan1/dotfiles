@@ -7,7 +7,7 @@ return {
     disable_winbar_cb = function(args)
       return conditions.buffer_matches({
         buftype = { "nofile", "prompt", "help", "quickfix" },
-        filetype = { "terminal", "^git.*", "fugitive", "Trouble", "snacks_dashboard" },
+        filetype = { "terminal", "markdown", "^git.*", "fugitive", "Trouble", "snacks_dashboard" },
       }, args.buf)
     end,
   },
