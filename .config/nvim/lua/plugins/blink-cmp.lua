@@ -130,6 +130,6 @@ return {
   {
     "brenoprata10/nvim-highlight-colors",
     event = "BufReadPre",
-    opts = { enable_tailwind = true, exclude_filetypes = { "markdown" } },
+    opts = { enable_tailwind = true, exclude_filetypes = { "markdown", "checkhealth" } },
   },
 }
