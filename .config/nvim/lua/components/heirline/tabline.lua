@@ -12,9 +12,10 @@ M.TablineFileName = {
     return vim.fn.fnamemodify(filename, ":.:h:t") .. "/" .. vim.fn.fnamemodify(filename, ":t")
   end,
   hl = function(self)
+    local curr = self.bufnr == vim.api.nvim_get_current_buf()
     return {
-      fg = (self.is_active or self.is_visible) and "#C8D3F5" or "#636DA6",
-      bold = self.is_active or self.is_visible,
+      fg = curr and "#C8D3F5" or "#636DA6",
+      bold = curr,
       bg = utils.get_highlight("Normal").bg,
     }
   end,
