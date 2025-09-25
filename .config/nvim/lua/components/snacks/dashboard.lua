@@ -3,7 +3,7 @@ local M = {}
 M.opts = {
   preset = {
     ---@type snacks.dashboard.Item[]
-    -- stylua:ignore
+    -- stylua: ignore
     keys = {
       {
         icon = " ",
