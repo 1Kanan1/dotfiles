@@ -1,5 +1,6 @@
 alias ls="eza --icons=always"
 alias btm="btm -RTr 500ms --default_widget_type process"
+# alias rm="rip" WARNING: rm is used by other plugins or libraries
 
 # Aliases for python and related tools
 alias python="python3"
