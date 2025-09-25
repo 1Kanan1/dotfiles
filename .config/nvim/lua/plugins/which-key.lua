@@ -63,6 +63,7 @@ return {
 
       -- misc
       { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear Search & Escape", mode = { "i", "n" }, icon = "󰛨" },
+      { "dD", ":%d<cr>", desc = "Delete the whole buffer", icon = "󰧧" },
     })
     wk.setup(opts)
   end,
