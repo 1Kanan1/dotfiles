@@ -75,6 +75,7 @@ M.GitStatus = utils.insert(M.Git, {
         cwd = vim.fs.root(0, ".git"),
         pattern = vim.fn.expand("%:t"),
         previewers = { diff = { builtin = false } },
+        focus = "list",
       })
     end,
     name = "heirline_git_status",
