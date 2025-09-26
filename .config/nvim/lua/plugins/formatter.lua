@@ -12,7 +12,6 @@ return {
         css = { "prettierd" },
         scss = { "prettierd" },
         sql = { "sqruff" },
-        json = { "biome" },
         markdown = { "prettierd" },
         vue = { "prettierd" },
         yaml = { "prettierd" },
