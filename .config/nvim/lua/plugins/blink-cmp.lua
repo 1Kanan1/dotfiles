@@ -61,11 +61,11 @@ return {
                     local icon = ctx.kind_icon
 
                     if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                      local mini_icon, _ = require("mini.icons").get_icon(ctx.item.data.type, ctx.label)
+                      local mini_icon, _ = require("mini.icons").get("file", ctx.label)
                       if mini_icon then
                         return mini_icon .. ctx.icon_gap
                       end
-                    elseif vim.tbl_contains({ "LSP" }, ctx.source_name) then
+                    elseif ctx.source_name == "LSP" then
                       local color_item =
                         require("nvim-highlight-colors").format(ctx.item.documentation or "", { kind = ctx.kind })
 
@@ -81,11 +81,11 @@ return {
 
                   highlight = function(ctx)
                     if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                      local _, mini_hl = require("mini.icons").get_icon(ctx.item.data.type, ctx.label)
+                      local _, mini_hl = require("mini.icons").get("file", ctx.label)
                       if mini_hl then
                         return mini_hl
                       end
-                    elseif vim.tbl_contains({ "LSP" }, ctx.source_name) then
+                    elseif ctx.source_name == "LSP" then
                       local color_item =
                         require("nvim-highlight-colors").format(ctx.item.documentation or "", { kind = ctx.kind })
 
@@ -97,10 +97,11 @@ return {
                     return ctx.kind_hl
                   end,
                 },
+
                 kind = {
                   highlight = function(ctx)
                     if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                      local _, mini_hl = require("mini.icons").get_icon(ctx.item.data.type, ctx.label)
+                      local _, mini_hl = require("mini.icons").get("file", ctx.label)
                       if mini_hl then
                         return mini_hl
                       end
