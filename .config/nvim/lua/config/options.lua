@@ -40,6 +40,9 @@ local options = {
   -- Shell / commands
   shell = "/opt/homebrew/bin/fish", -- use fish shell
   shellcmdflag = "-c",              -- shell command flag
+
+  -- File synchronization
+  autoread = true,                  -- automatically read file when changed externally
 }
 
 for key, value in pairs(options) do

@@ -14,3 +14,18 @@ vim.api.nvim_create_autocmd("VimLeave", {
     end
   end,
 })
+-- File synchronization - automatically reload files when changed externally
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  pattern = { "*" },
+  callback = function()
+    if vim.o.autoread then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- Also set up file change notifications
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  pattern = { "*" },
+  command = "echo 'File changed on disk. Buffer reloaded.'",
+})
