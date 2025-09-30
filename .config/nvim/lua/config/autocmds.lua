@@ -14,6 +14,16 @@ vim.api.nvim_create_autocmd("VimLeave", {
     end
   end,
 })
+
+-- Python indentation
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python" },
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+  end,
+})
+
 -- File synchronization - automatically reload files when changed externally
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   pattern = { "*" },
