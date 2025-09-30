@@ -10,8 +10,8 @@ return {
           hl.WinBar = { link = "Normal" }
           hl.WinBarNC = { link = "Normal" }
 
-          hl.WhichKeyNormal = { blend = 15, bg = "#222435" }
-          hl.WhichKeyBorder = { blend = 15, bg = "#222435" }
+          hl.WhichKeyNormal = { link = "Normal" }
+          hl.WhichKeyBorder = { link = "Normal" }
         end,
       })
       vim.cmd("colorscheme tokyonight-moon")
