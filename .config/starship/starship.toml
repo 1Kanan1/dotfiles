@@ -16,6 +16,12 @@ success_symbol = '[➜](bold green)'
 [git_branch]
 format = '[$symbol$branch(:$remote_branch)]($style)'
 
+[bun]
+symbol = ' '
+
+[rust]
+symbol = " "
+
 [python]
 symbol = ' '
 python_binary = "python3"
