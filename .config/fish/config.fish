@@ -3,6 +3,7 @@ if status is-interactive
     set fish_tmux_fixterm_with_256color "tmux-256color"
     set fish_tmux_autostart true
 
+    set -gx ATUIN_NOBIND "true"
     atuin init fish | source
     fzf --fish | FZF_ALT_C_COMMAND= source
 end
