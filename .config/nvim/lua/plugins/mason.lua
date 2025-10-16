@@ -48,7 +48,7 @@ return {
       if ok then
         if uninstall and pkg:is_installed() then
           pkg:uninstall()
-        else
+        elseif not uninstall then
           if not pkg:is_installed() then
             pkg:install()
           end
