@@ -23,10 +23,11 @@ return {
       "dockerls",
       "lua_ls",
       "ruff",
-      "pyright",
+      "basedpyright", -- set { typeCheckingMode: false } in pyrightconfig.json
       "vtsls",
       "eslint", -- LSP, Formatter (js,jsx,ts,tsx)
       -- "oxlint",
+      "rust_analyzer",
       "sqls",
       "html",
       "cssls",
