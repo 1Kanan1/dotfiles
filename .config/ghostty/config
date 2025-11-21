@@ -6,3 +6,4 @@ background = 000000
 background-opacity = .6
 window-width = 88
 window-height = 30
+keybind = command+k=text:\x0c
