@@ -14,11 +14,11 @@ This repo sets up my shell, editors, terminal, and a bunch of handy CLI tools.
 │   ├──  atuin
 │   ├──  fish
 │   ├──  ghostty
+│   ├──  lazydocker
 │   ├──  lazygit
 │   ├──  nvim
 │   ├──  starship
 │   └──  yazi
-├──  .git
 ├── 󰊢 .gitconfig
 ├──  .stow-local-ignore
 ├── 󱁻 .tmux.conf
@@ -33,11 +33,11 @@ This repo sets up my shell, editors, terminal, and a bunch of handy CLI tools.
 Clone this repo into your home directory:
 
 ```sh
-git clone https://github.com/your-username/dotfiles.git ~/dotfiles
+git clone https://github.com/1Kanan1/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
-### 🍺 Install Homebrew (macOS only)
+### 🍺 Install Homebrew (macOS or Linux)
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -46,10 +46,35 @@ cd ~/dotfiles
 ### 📦 Install Packages
 
 ```sh
-brew install delta lazygit eza tmux fish neovim stow starship atuin bat fzf ghostty ripgrep imagemagick jq fd xh
-# optional:
-brew install httpie
-brew install posting
+brew install \
+  font-hack-nerd-font       # patched font with embedded icons from popular icon sets (for Linux, add `--cask` after `install`)
+
+brew install \
+  delta                     # git diff viewer with syntax highlighting
+  lazydocker                # TUI for docker
+  lazygit                   # TUI for git
+  eza                       # modern ls replacement
+  tmux                      # terminal multiplexer
+  fish                      # user-friendly shell
+  neovim                    # text editor
+  stow                      # manage dotfiles with symlinks
+  starship                  # fancy shell prompt
+  atuin                     # shell history manager
+  bat                       # cat with wings (syntax highlighting)
+  fzf                       # fuzzy finder
+  ghostty                   # GPU-accelerated terminal emulator
+  ripgrep                   # fast grep alternative
+  imagemagick               # image manipulation tools
+  jq                        # JSON processor
+  fd                        # modern find replacement
+  xh                        # friendly HTTP client
+  gh                        # GitHub CLI
+  glab                      # GitLab CLI
+  rm-improved               # safer rm command
+
+# optional extras:
+brew install httpie         # alternative HTTP client
+brew install posting        # post stuff from the terminal
 ```
 
 ### 🔗 Stow Configs
@@ -74,3 +99,7 @@ chsh -s /opt/homebrew/bin/fish
 - `stow-local-ignore` makes sure `.git` and other repo-only files don’t get symlinked.
 - Some configs are macOS-first, but most will work fine on Linux.
 - Optional tools (`httpie`, `posting`) won’t break anything if skipped.
+
+## TODO
+
+- mention, that tmux uses TPM and installing it requires pulling the git repo (`git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`)
