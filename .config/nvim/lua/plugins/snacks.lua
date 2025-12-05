@@ -11,11 +11,18 @@ return {
           enabled = true,
         },
       },
+      image = { enabled = true },
       picker = {
         sources = {
           explorer = {
             layout = { layout = { position = "right" } },
           },
+        },
+      },
+      statuscolumn = {
+        folds = {
+          open = true,
+          git_hl = true,
         },
       },
     },
