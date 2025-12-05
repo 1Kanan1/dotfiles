@@ -1,9 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    set fish_tmux_fixterm_with_256color "tmux-256color"
+    set fish_tmux_fixterm_with_256color tmux-256color
     set fish_tmux_autostart true
 
-    set -gx ATUIN_NOBIND "true"
     atuin init fish | source
     fzf --fish | FZF_ALT_C_COMMAND= source
 end
@@ -22,15 +21,14 @@ end
 set -gx EDITOR nvim
 
 # NVM setup (node --version > $HOME/.nvmrc)
-eval nvm use >> /dev/null
+eval nvm use >>/dev/null
 
 # ----- Podman DOCKER_HOST -----
 
 #set DOCKER_HOST "unix://$HOME/.orbstack/run/docker.sock"
 
 # ----- Bat (better cat) -----
-set -x BAT_THEME "TwoDark"
-
+set -x BAT_THEME TwoDark
 
 # ----- PostgreSQL@16 -----
 # If you need to have postgresql@16 first in your PATH
@@ -51,7 +49,6 @@ if test -s "$HOME/.bun/_bun"
     source "$HOME/.bun/_bun"
 end
 
-
 set -x PATH "/usr/local/bin:$PATH"
 
 # uv tools
@@ -60,7 +57,7 @@ set -x PATH "$HOME/.local/bin:$PATH"
 # pyenv setup
 set -x PATH "$HOME/.pyenv/shims:$PATH"
 set -x PATH "$HOME/.pyenv/bin:$PATH"
-set -x PYTHONPYCACHEPREFIX "/tmp/__pycache__/"
+set -x PYTHONPYCACHEPREFIX /tmp/__pycache__/
 
 # rust & cargo
 set -x PATH "/opt/homebrew/opt/rustup/bin:$PATH"
@@ -70,7 +67,7 @@ bind \cr _atuin_search
 
 # custom 'trash'
 function trash
-  for item in $argv
-    mv $item ~/.Trash/$item
-  end
+    for item in $argv
+        mv $item ~/.Trash/$item
+    end
 end
