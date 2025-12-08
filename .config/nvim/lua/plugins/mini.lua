@@ -14,6 +14,8 @@ return {
       ico = { glyph = "", hl = "MiniIconsYellow" },
       sqlite = { glyph = "", hl = "MiniIconsAzure" },
       sqlite3 = { glyph = "", hl = "MiniIconsAzure" },
+      ["spec.js"] = { glyph = "󰂓 ", hl = "MiniIconsBlue" },
+      ["spec.ts"] = { glyph = "󰂓 ", hl = "MiniIconsBlue" },
     },
     file = {
       [".eslintrc.js"] = { glyph = "󰱺", hl = "MiniIconsYellow" },
