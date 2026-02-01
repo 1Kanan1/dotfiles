@@ -1,6 +1,6 @@
 # default
 shell-integration = fish
-font-size = 18
+font-size = 20
 font-family = Hack Nerd Font
 background = 000000
 background-opacity = .6
