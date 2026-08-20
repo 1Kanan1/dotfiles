@@ -25,6 +25,9 @@ return {
           git_hl = true,
         },
       },
+      terminal = {
+        win = { position = "float" },
+      },
     },
   },
   {

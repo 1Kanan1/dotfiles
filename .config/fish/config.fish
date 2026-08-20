@@ -36,3 +36,9 @@ if status is-interactive
         source "$HOME/.bun/_bun"
     end
 end
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/kanan2003/.local/bin" $PATH
+
+# Added by Antigravity IDE
+fish_add_path /Users/kanan2003/.antigravity-ide/antigravity-ide/bin

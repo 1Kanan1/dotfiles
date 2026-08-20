@@ -5,4 +5,4 @@ SETUVAR _fisher_budimanjojo_2F_tmux_2E_fish_files:\x7e/\x2econfig/fish/conf\x2ed
 SETUVAR _fisher_edc_2F_bass_files:\x7e/\x2econfig/fish/functions/__bass\x2epy\x1e\x7e/\x2econfig/fish/functions/bass\x2efish
 SETUVAR _fisher_plugins:edc/bass\x1ebudimanjojo/tmux\x2efish
 SETUVAR _fisher_upgraded_to_4_4:\x1d
-SETUVAR fish_user_paths:/usr/local/bin\x1e/opt/homebrew/sbin\x1e/opt/homebrew/opt/openjdk\x4021/bin\x1e/opt/homebrew/opt/openjdk/bin\x1e/opt/homebrew/bin
+SETUVAR fish_user_paths:/Users/kanan2003/\x2ecargo/bin\x1e/Users/kanan2003/\x2ebun/bin\x1e/Users/kanan2003/\x2eantigravity\x2dide/antigravity\x2dide/bin\x1e/Users/kanan2003/\x2elocal/bin\x1e/usr/local/bin\x1e/opt/homebrew/sbin\x1e/opt/homebrew/opt/openjdk\x4021/bin\x1e/opt/homebrew/opt/openjdk/bin\x1e/opt/homebrew/bin
