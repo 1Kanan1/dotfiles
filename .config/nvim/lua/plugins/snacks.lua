@@ -26,7 +26,12 @@ return {
         },
       },
       terminal = {
-        win = { position = "float" },
+        win = {
+          position = "float",
+          border = "rounded",
+          width = 0.8,
+          height = 0.8,
+        },
       },
     },
   },
