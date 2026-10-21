@@ -8,7 +8,7 @@
     "lazyvim.plugins.extras.lang.tailwind",
     "lazyvim.plugins.extras.lang.toml",
     "lazyvim.plugins.extras.lang.typescript.oxc",
-    "lazyvim.plugins.extras.lang.typescript.tsgo",
+    "lazyvim.plugins.extras.lang.typescript.tsc",
     "lazyvim.plugins.extras.util.mini-hipatterns",
     "lazyvim.plugins.extras.util.rest"
   ],
