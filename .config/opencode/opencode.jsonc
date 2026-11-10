@@ -1,11 +1,18 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugins": [],
+  "compaction": {
+    "buffer": "30%",
+  },
   "mcp": {
     "servers": {
       "context7": {
         "type": "remote",
-        "url": "https://mcp.context7.com/mcp",
+        "url": "https://mcp.context7.com/mcp/oauth",
+      },
+      "freehire": {
+        "type": "remote",
+        "url": "https://freehire.me/api/v1/mcp",
       },
       "chrome-devtools": {
         "type": "local",
@@ -19,6 +26,23 @@
           "/Users/kanan2003/.chrome-for-testing/chrome/mac_arm-155.0.8059.79/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
         ],
       },
+      // search engines
+      "firecrawl": {
+        "type": "remote",
+        "url": "https://mcp.firecrawl.dev/v2/mcp-oauth",
+      },
+      "tavily": {
+        "type": "remote",
+        "url": "https://mcp.tavily.com/mcp/",
+      },
+      "exa": {
+        "type": "remote",
+        "url": "https://mcp.exa.ai/mcp",
+      },
+      "searchcode": {
+        "type": "remote",
+        "url": "https://api.searchcode.com/v1/mcp",
+      },
     },
   },
 
@@ -30,10 +54,20 @@
 
     // /tmp is canonicalized to /private/tmp, so one spelling covers both.
     { "action": "external_directory", "resource": "/private/tmp/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
 
     // macOS puts $TMPDIR under /private/var/folders/<2>/<hash>/T. Literal, so it
     // cannot widen to /private* when TMPDIR is unset.
-    { "action": "external_directory", "resource": "/private/var/folders/*/*/T/*", "effect": "allow" },
+    {
+      "action": "external_directory",
+      "resource": "/private/var/folders/*/*/T/*",
+      "effect": "allow",
+    },
+    {
+      "action": "external_directory",
+      "resource": "/var/folders/*/*/T/*",
+      "effect": "allow",
+    },
 
     // Mirrors BOUNDARY_EXTRA_ROOTS in plugins/guard.ts. ~/.config/opencode is
     // excluded on purpose: it holds guard.ts and this file.

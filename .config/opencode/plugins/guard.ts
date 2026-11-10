@@ -335,10 +335,11 @@ export function pathsOutsideBoundary(command: string, cwd: string, roots: string
  * where it matters -- the boundary never fires there and every other check is
  * path-based, so a `.env` in the repo you are editing was otherwise wide open.
  *
- * KNOWN GAP: an implicit scan names no path. `rg pattern` with no operand
- * searches cwd and will read `.env` without ever appearing here. This catches
- * explicit operands (`cat .env`, `restore .env`) only. The recursive case is
- * covered by the instruction in AGENTS.md, not by this function.
+ * KNOWN GAP: an implicit scan names no path. `grep -r pattern` searches hidden
+ * files, so it reads `.env` without ever appearing here; `rg` skips hidden files
+ * unless given `--hidden` or `-uu`. A wildcard operand (`cat .env*`) is missed
+ * for the same reason: this sees the literal token and the shell expands it
+ * afterwards. Both cases are covered by AGENTS.md, not by this function.
  */
 const ENV_FILE = /^\.env(?:rc|\..*)?$/i;
 const ENV_EXAMPLE = /^\.env\.(?:example|sample|template|dist|defaults?)(?:\..*)?$/i;
