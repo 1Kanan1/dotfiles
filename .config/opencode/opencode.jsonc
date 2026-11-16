@@ -13,6 +13,15 @@
       "freehire": {
         "type": "remote",
         "url": "https://freehire.me/api/v1/mcp",
+        "disabled": true,
+      },
+      "browser": {
+        "type": "local",
+        "command": ["npx", "-y", "agent-browser", "mcp"],
+        "environment": {
+          "AGENT_BROWSER_EXECUTABLE_PATH": "/Users/kanan2003/.chrome-for-testing/chrome/mac_arm-157.0.8103.78/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+          "AGENT_BROWSER_HEADLESS": "true",
+        },
       },
       "chrome-devtools": {
         "type": "local",
@@ -22,8 +31,9 @@
           "chrome-devtools-mcp@latest",
           "--headless",
           "--no-usage-statistics",
-          "--executablePath",
-          "/Users/kanan2003/.chrome-for-testing/chrome/mac_arm-155.0.8059.79/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+          "--isolated",
+          "--viewport=1440x900",
+          "--executablePath=/Users/kanan2003/.chrome-for-testing/chrome/mac_arm-157.0.8103.78/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
         ],
       },
       // search engines
