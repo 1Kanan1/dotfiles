@@ -494,7 +494,37 @@ function checkRootTargets(command: string): void {
   }
 }
 
-// ------------------------------------------------------------ git force push
+// ---------------------------------------------------------------- git checks
+
+/** git's global flags that take a value, so the subcommand is not their argument. */
+const GIT_VALUE_FLAGS = new Set([
+  "-C",
+  "-c",
+  "--git-dir",
+  "--work-tree",
+  "--namespace",
+  "--exec-path",
+  "--config-env",
+]);
+
+/**
+ * The subcommand and the arguments after it, with git's global flags skipped.
+ *
+ * Subcommands are not always first: `git -C <dir> push` and `git -c k=v push`
+ * put flags in front. Reading args[0] treated `-C` as the verb, and searching
+ * the whole argument list for "push" mistook a commit message for one.
+ */
+function gitCommand(args: string[]): { sub: string; rest: string[] } | undefined {
+  for (let i = 0; i < args.length; i++) {
+    if (GIT_VALUE_FLAGS.has(args[i])) {
+      i++;
+      continue;
+    }
+    if (args[i].startsWith("-")) continue;
+    return { sub: args[i], rest: args.slice(i + 1) };
+  }
+  return undefined;
+}
 
 /**
  * Force pushes a prefix matcher cannot see.
@@ -514,10 +544,9 @@ function checkGitForce(command: string): void {
     if (!toks.length) continue;
     const i = commandIndex(toks);
     if (basename(toks[i]) !== "git") continue;
-    const args = toks.slice(i + 1);
-    const sub = args.indexOf("push");
-    if (sub < 0) continue;
-    const rest = args.slice(sub + 1);
+    const git = gitCommand(toks.slice(i + 1));
+    if (!git || git.sub !== "push") continue;
+    const rest = git.rest;
     if (rest.some((t) => t === "--force" || t === "-f")) {
       throw new Denied("force push blocked. Use --force-with-lease if this is genuinely required.");
     }
@@ -530,6 +559,30 @@ function checkGitForce(command: string): void {
       throw new Denied("deleting a remote branch is blocked.");
     }
   }
+}
+
+/**
+ * Push and hard reset prompt rather than run unattended: both discard work the
+ * snapshot store cannot get back, one on the remote and one in the worktree.
+ *
+ * Matching is by subcommand, not by the command string, so a commit message
+ * that says "push" or "reset --hard" is not itself a trigger. Config globs match
+ * the whole line and did exactly that.
+ */
+function checkGitPrompt(command: string): string | undefined {
+  for (const seg of segments(command)) {
+    const toks = tokenize(seg);
+    if (!toks.length) continue;
+    const i = commandIndex(toks);
+    if (basename(toks[i]) !== "git") continue;
+    const git = gitCommand(toks.slice(i + 1));
+    if (!git) continue;
+    if (git.sub === "push") return "`git push` writes to a remote. The snapshot store cannot undo that.";
+    if (git.sub === "reset" && git.rest.includes("--hard")) {
+      return "`git reset --hard` discards local changes. The snapshot store restores them if this is a mistake.";
+    }
+  }
+  return undefined;
 }
 
 // ------------------------------------------------------------------ unwrapping
@@ -577,6 +630,8 @@ export function evaluateSecurity(command: string): Decision {
       if (publish) return { prompt: publish };
       checkRootTargets(c);
       checkGitForce(c);
+      const git = checkGitPrompt(c);
+      if (git) return { prompt: git };
     }
   } catch (e) {
     if (e instanceof Denied) return { deny: e.message };

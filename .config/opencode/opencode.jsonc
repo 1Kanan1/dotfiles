@@ -91,11 +91,6 @@
       "resource": "{env:HOME}/.local/share/opencode/*",
       "effect": "allow",
     },
-
-    // A push and a hard reset are the two git commands the snapshot store cannot
-    // undo from here, so they prompt instead of running unattended.
-    { "action": "shell", "resource": "git *push*", "effect": "ask" },
-    { "action": "shell", "resource": "git *reset*--hard*", "effect": "ask" },
   ],
 
   // Coarse deny patterns; guard.ts handles flag order, nested commands and the

@@ -236,18 +236,30 @@ for (const c of [
   t(c, e.effect === "deny", `effect=${e.effect}`)
 }
 
-console.log("\nGIT FORCE PUSH: the safe forms still run")
+console.log("\nGIT PUSH: a commit message that mentions one is not a push")
+for (const c of [
+  "git commit -m \"push --force\"",
+  "git commit -m \"always use push --force carefully\"",
+  "git commit -m \"git reset --hard\"",
+]) {
+  const e = await evalCmd(c)
+  t(c, e.effect === "allow", `effect=${e.effect}`)
+}
+
+console.log("\nGIT PUSH AND HARD RESET: prompt, parsed by subcommand")
 for (const c of [
   "git push",
   "git push origin main",
   "git push --force-with-lease origin main",
   "git push --force-with-lease=origin/main origin main",
   "git push --follow-tags origin main",
-  "git commit -m \"push --force\"",
-  "git commit -m \"always use push --force carefully\"",
+  "git -C /elsewhere push",
+  "git -c k=v push origin main",
+  "git reset --hard",
+  "git -C /elsewhere reset --hard HEAD~1",
 ]) {
   const e = await evalCmd(c)
-  t(c, e.effect === "allow", `effect=${e.effect}`)
+  t(c, e.effect === "ask", `effect=${e.effect}`)
 }
 
 console.log("\nPROMPT: irreversible but intentional -> ask, not deny")
