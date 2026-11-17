@@ -91,6 +91,11 @@
       "resource": "{env:HOME}/.local/share/opencode/*",
       "effect": "allow",
     },
+
+    // A push and a hard reset are the two git commands the snapshot store cannot
+    // undo from here, so they prompt instead of running unattended.
+    { "action": "shell", "resource": "git *push*", "effect": "ask" },
+    { "action": "shell", "resource": "git *reset*--hard*", "effect": "ask" },
   ],
 
   // Coarse deny patterns; guard.ts handles flag order, nested commands and the
@@ -99,6 +104,13 @@
     { "action": "tool.use", "resource": "shell:rm -rf /private*", "effect": "deny" },
     // Scratch under /private/tmp stays deletable; the deny above is for the tree.
     { "action": "tool.use", "resource": "shell:rm -rf /private/tmp/*", "effect": "allow" },
+    // Order is load-bearing. The first rule matches /private/var/... too, so this
+    // allow has to come after it or $TMPDIR cleanup stays blocked.
+    {
+      "action": "tool.use",
+      "resource": "shell:rm -rf /private/var/folders/*/*/T/*",
+      "effect": "allow",
+    },
     { "action": "tool.use", "resource": "shell:rm -rf / *", "effect": "deny" },
     { "action": "tool.use", "resource": "shell:rm -rf ~*", "effect": "deny" },
 
