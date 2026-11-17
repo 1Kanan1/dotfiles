@@ -160,8 +160,18 @@ export function collectTargets(command: string, cwd: string): { targets: Target[
     }
 
     if (name === "git" && args.length) {
-      const sub = basename(args[0])
-      const subargs = args.slice(1)
+      // `git -C <dir>` runs against <dir> and leaves the subcommand at args[2],
+      // so reading args[0] made `-C` the subcommand and the whole command
+      // invisible. Resolve it the way git does and use that directory for the
+      // targets and for the dirty set.
+      let gitCwd = workdir
+      let rest = args
+      while (rest[0] === "-C" && rest.length >= 2) {
+        gitCwd = resolvePathFrom(rest[1], gitCwd)
+        rest = rest.slice(2)
+      }
+      const sub = basename(rest[0] ?? "")
+      const subargs = rest.slice(1)
       if (!DIRTY_GIT_OPS.has(sub)) continue
       if (sub === "reset" && !subargs.includes("--hard")) continue
       if (sub === "stash" && !subargs.includes("drop")) continue
@@ -171,7 +181,7 @@ export function collectTargets(command: string, cwd: string): { targets: Target[
 
         if (dashdash >= 0) {
           if (!pathArgs.length) continue
-          targets.push(...pathArgs.map((p) => ({ raw: p, cwd: workdir })))
+          targets.push(...pathArgs.map((p) => ({ raw: p, cwd: gitCwd })))
           labels.push(`git ${sub}`)
           continue
         }
@@ -179,8 +189,8 @@ export function collectTargets(command: string, cwd: string): { targets: Target[
         // git restore has no safe form: every variant discards working-tree
         // content, and a bare `git restore` discards all of it.
         if (sub === "restore") {
-          if (pathArgs.length) targets.push(...pathArgs.map((p) => ({ raw: p, cwd: workdir })))
-          else targets.push({ raw: "__GIT_DIRTY__", cwd: workdir })
+          if (pathArgs.length) targets.push(...pathArgs.map((p) => ({ raw: p, cwd: gitCwd })))
+          else targets.push({ raw: "__GIT_DIRTY__", cwd: gitCwd })
           labels.push("git restore")
           continue
         }
@@ -191,13 +201,13 @@ export function collectTargets(command: string, cwd: string): { targets: Target[
         // work, and only git can tell those apart.
         if (!pathArgs.length) continue
         if (BRANCH_CREATING.some((f) => subargs.includes(f))) continue
-        if (pathArgs.every((a) => git(["rev-parse", "--verify", "--quiet", a], workdir) !== null)) continue
+        if (pathArgs.every((a) => git(["rev-parse", "--verify", "--quiet", a], gitCwd) !== null)) continue
 
-        targets.push({ raw: "__GIT_DIRTY__", cwd: workdir })
+        targets.push({ raw: "__GIT_DIRTY__", cwd: gitCwd })
         labels.push(`git ${sub}`)
         continue
       }
-      targets.push({ raw: "__GIT_DIRTY__", cwd: workdir })
+      targets.push({ raw: "__GIT_DIRTY__", cwd: gitCwd })
       labels.push(`git ${sub}`)
       continue
     }
@@ -325,7 +335,6 @@ function timestamp(): string {
 }
 
 export function snapshot(pairs: Target[], label: string, cwd: string): string {
-  resetCoverage()
   const stamp = timestamp()
   const slug = label.replace(/[^a-zA-Z0-9]+/g, "-").slice(0, 40).replace(/^-+|-+$/g, "") || "op"
   let dest = join(BACKUP_ROOT, `${stamp}-${slug}`)
@@ -369,6 +378,13 @@ export type SnapshotDecision = { deny?: string; note?: string }
 /** The snapshot half of the decision. Never throws except `Denied`. */
 export function evaluateSnapshot(command: string, cwd: string): SnapshotDecision {
   if (!command.trim()) return {}
+
+  // The recoverable-from-git filter below must see the working tree as it is
+  // now. Coverage is memoised per directory for the life of the process, and
+  // resetting inside snapshot() was too late: the filter runs first, so a
+  // leftover cache called modified files "tracked and clean" and skipped their
+  // backup.
+  resetCoverage()
 
   const { targets, labels } = collectTargets(command, cwd)
   const needsDirty = targets.some((t) => t.raw === "__GIT_DIRTY__")

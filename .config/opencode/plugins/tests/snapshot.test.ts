@@ -95,6 +95,27 @@ t("mv records source and destination", collectTargets("mv a.txt b.txt", repo).ta
   t("rm -rf / is refused by the snapshot engine too", threw)
 }
 
+console.log("\nGIT -C")
+{
+  // The subcommand sits after `-C <dir>`, and the dirty set belongs to that
+  // repo, not to the shell's cwd (root, which is not a repo).
+  const cc = collectTargets(`git -C ${repo} reset --hard`, root)
+  t("git -C <dir> reset --hard records a dirty target", cc.targets.some((x) => x.raw === "__GIT_DIRTY__" && x.cwd === repo))
+  const r = evaluateSnapshot(`git -C ${repo} reset --hard`, root)
+  t("git -C <dir> reset --hard is snapshotted", !!r.note)
+  t("its dirty files are the ones saved", !!r.note?.includes("untracked.txt"), r.note ?? "no note")
+}
+
+console.log("\nSTALE COVERAGE CACHE")
+{
+  writeFileSync(join(repo, "stale.txt"), "committed\n")
+  sh("git add -A && git commit -qm stale")
+  ev("rm tidy.txt") // fills the per-directory coverage cache while stale.txt is clean
+  writeFileSync(join(repo, "stale.txt"), "modified after the cache was filled\n")
+  const r = ev("rm stale.txt")
+  t("modified tracked file is snapshotted after the cache was warmed", !!r.note, r.note ?? "no note")
+}
+
 console.log(`\n${pass} passed, ${fail} failed`)
 rmSync(root, { recursive: true, force: true })
 rmSync(STORE, { recursive: true, force: true })
